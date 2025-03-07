@@ -1,6 +1,7 @@
 import { PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useRef } from 'react'
+import gsap from 'gsap';
 // import { Leva, useControls } from 'leva'
 import { useMediaQuery } from 'react-responsive'
 import { calculateSizes } from '../constants'
@@ -13,6 +14,7 @@ import ReactLogo from '../components/ReactLogo'
 import Cube from '../components/Cube'
 import Ring from '../components/Ring'
 import HeroCamera from '../components/HeroCamera'
+import Button from '../components/Button';
 
 
 const Hero = () => {
@@ -58,12 +60,42 @@ const Hero = () => {
   const isSmall = useMediaQuery({maxWidth: 440})
 
   const sizes = calculateSizes(isSmall, isMobile, isTablet)
+
+  const textRef = useRef(null);
+  const languages = ["안녕하세요", "こんにちは", "Hola", "Hi", "Bonjour", "Hai"];
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      let i = 0;
+
+      gsap.to({}, {
+        duration: 2,
+        repeat: -1,
+        onRepeat: () => {
+          gsap.to(textRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+              textRef.current.innerText = languages[i];
+              gsap.to(textRef.current, {
+                opacity: 1,
+                duration: 0.5,
+              });
+              i = (i + 1) % languages.length;
+            },
+          });
+        },
+      });
+    });
+
+    return () => ctx.revert(); // Cleanup on component unmount
+  }, []);
   
   return (
     <section className="min-h-screen w-full flex flex-col relative">
       <div className="w-full mx-auto flex flex-col sm:mt-28 mt-24 c-space gap-3">
         <p className="sm:text-3xl text-2xl font-medium text-white text-center font-generalsans">
-          Hi, I'am Arkan <span className="waving-hand">👋</span>
+        <span ref={textRef}>Hi</span>, I'am Arkan <span className="waving-hand">👋</span>
         </p>
         <p className="hero_tag text-gray_gradient">
           Crafting Digital Experience
@@ -95,6 +127,11 @@ const Hero = () => {
             <directionalLight position={[0, 0, 0]} intensity={0.5} />
           </Suspense>
         </Canvas>
+      </div>
+      <div className='absolute bottom-7 left-0 w-full z-10 c-space'>
+        <a href="#contact" className='w-fit'>
+          <Button name="Let’s create something amazing together!" isBeam containerClass='sm:w-fit w-full sm:min-w-96' />
+        </a>
       </div>
     </section>
   );

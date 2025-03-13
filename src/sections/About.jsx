@@ -18,31 +18,30 @@ const About = () => {
   return (
     <section className="c-space my-20" id="about">
       <div className="grid xl:grid-cols-3 xl:grid-rows-6 md:grid-cols-2 grid-cols-1 gap-5 h-full">
-        <div className="col-span-1 xl:row-span-3">
+        <div className="col-span-2 xl:row-span-3">
           <div className="grid-container">
-            <img src="assets/grid1.png" alt="grid-1" className="w-full sm:h-[276px] h-fit object-contain" />
-
-            <div>
-              <p className="grid-headtext">Hi, I’m Adrian Hajdin</p>
-              <p className="grid-subtext">
-                With 12 years of experience, I have honed my skills in both frontend and backend dev, creating dynamic
-                and responsive websites.
-              </p>
+            <p className="grid-headtext-about">About Me</p>
+            <div className='flex gap-2'>
+            <p className='mt-1'>
+              <svg
+                width="34"
+                height="34"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 10H3V4H9V8C9 9.66 7.66 11 6 11V10ZM17 10H13V4H19V8C19 9.66 17.66 11 16 11V10Z"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </p>
+            <p className='grid-subtext-about'>With more than 5 YoE in Frontend Development field.</p>
             </div>
-          </div>
-        </div>
-
-        <div className="col-span-1 xl:row-span-3">
-          <div className="grid-container">
-            <img src="assets/grid2.png" alt="grid-2" className="w-full sm:h-[276px] h-fit object-contain" />
-
-            <div>
-              <p className="grid-headtext">Tech Stack</p>
-              <p className="grid-subtext">
-                I specialize in a variety of languages, frameworks, and tools that allow me to build robust and scalable
-                applications
-              </p>
-            </div>
+            <p className='grid-subtext-about'>As a Frontend Developer, I blend stunning UI/UX with seamless functionality balancing development constraints, user needs, and product goals to deliver high performance, intuitive experiences.</p>
           </div>
         </div>
 
@@ -58,26 +57,43 @@ const About = () => {
                 showGraticules
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
                 bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-                labelsData={[{ lat: 40, lng: -100, text: 'Rjieka, Croatia', color: 'white', size: 15 }]}
+                labelsData={[
+                  {
+                    lat: 40,
+                    lng: -100,
+                    text: "Rjieka, Croatia",
+                    color: "white",
+                    size: 15,
+                  },
+                ]}
               />
             </div>
             <div>
-              <p className="grid-headtext">I’m very flexible with time zone communications & locations</p>
-              <p className="grid-subtext">I&apos;m based in Rjieka, Croatia and open to remote work worldwide.</p>
-              <Button name="Contact Me" isBeam containerClass="w-full mt-10" />
+              <p className="grid-headtext-about">
+                I’m flexible !
+              </p>
+              <p className="grid-subtext">
+                I&apos;m based in Jakarta, Indonesia and open to work from anywhere.
+              </p>
+              <Button name="Available, Get In Touch !" isBeam containerClass="w-full mt-10" />
             </div>
           </div>
         </div>
 
         <div className="xl:col-span-2 xl:row-span-3">
           <div className="grid-container">
-            <img src="assets/grid3.png" alt="grid-3" className="w-full sm:h-[266px] h-fit object-contain" />
+            <img
+              src="assets/grid3.png"
+              alt="grid-3"
+              className="w-full sm:h-[266px] h-fit object-contain"
+            />
 
             <div>
-              <p className="grid-headtext">My Passion for Coding</p>
+              <p className="grid-headtext-about">My Passion for Coding</p>
               <p className="grid-subtext">
-                I love solving problems and building things through code. Programming isn&apos;t just my
-                profession—it&apos;s my passion. I enjoy exploring new technologies, and enhancing my skills.
+                I love solving problems and building things through code.
+                Programming isn&apos;t just my profession—it&apos;s my passion.
+                I enjoy exploring new technologies, and enhancing my skills.
               </p>
             </div>
           </div>
@@ -92,11 +108,8 @@ const About = () => {
             />
 
             <div className="space-y-2">
-              <p className="grid-subtext text-center">Contact me</p>
-              <div className="copy-container" onClick={handleCopy}>
-                <img src={hasCopied ? 'assets/tick.svg' : 'assets/copy.svg'} alt="copy" />
-                <p className="lg:text-2xl md:text-xl font-medium text-gray_gradient text-white">adrian@jsmastery.pro</p>
-              </div>
+              <p className="grid-subtext text-center">Get Know Me Better !</p>
+              <Button name="Download CV" containerClass='w-full mt-5' />
             </div>
           </div>
         </div>

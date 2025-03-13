@@ -5,6 +5,8 @@ export default {
       extend: {
         fontFamily: {
           generalsans: ['General Sans', 'sans-serif'],
+          instrument: ['Instrument Serif', 'serif'],
+          manrope: ['Manrope', 'sans-serif'],
         },
         colors: {
           black: {

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Button({ name, isBeam = false, containerClass }) {
   return (
-    <button className={`btn ${containerClass}`}>
+    <button className={`btn ${containerClass} font-manrope font-semibold`}>
         {isBeam && (
             <span className='relative flex h-3 w-3'>
                 <span className='btn-ping'/>

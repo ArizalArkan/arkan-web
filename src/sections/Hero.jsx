@@ -128,11 +128,6 @@ const Hero = () => {
           </Suspense>
         </Canvas>
       </div>
-      <div className='absolute bottom-7 left-0 w-full z-10 c-space'>
-        <a href="#contact" className='w-fit'>
-          <Button name="Let’s create something amazing together!" isBeam containerClass='sm:w-fit w-full sm:min-w-96' />
-        </a>
-      </div>
     </section>
   );
 }

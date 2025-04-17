@@ -1,7 +1,8 @@
-import React from 'react'
-import Navbar from './sections/Navbar'
-import Hero from './sections/Hero'
-import About from './sections/About'
+import Navbar from "./sections/Navbar";
+import Hero from "./sections/Hero";
+import About from "./sections/About";
+import Footer from "./sections/Footer";
+import Experience from "./sections/Experience";
 
 const App = () => {
   return (
@@ -9,8 +10,10 @@ const App = () => {
       <Navbar />
       <Hero />
       <About />
+      <Experience />
+      <Footer />
     </main>
-  )
-}
+  );
+};
 
-export default App
+export default App;

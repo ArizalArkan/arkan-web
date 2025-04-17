@@ -1,19 +1,8 @@
-import { useState } from 'react';
 import Globe from 'react-globe.gl';
 
 import Button from '../components/Button.jsx';
 
 const About = () => {
-  const [hasCopied, setHasCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(' adrian@jsmastery.pro');
-    setHasCopied(true);
-
-    setTimeout(() => {
-      setHasCopied(false);
-    }, 2000);
-  };
 
   return (
     <section className="c-space my-20" id="about">
@@ -59,11 +48,11 @@ const About = () => {
                 bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
                 labelsData={[
                   {
-                    lat: 40,
-                    lng: -100,
-                    text: "Rjieka, Croatia",
+                    lat: -6.256416487754249,
+                    lng: 106.85206784837288,
+                    text: "I'm here at Jakarta Indoneisa",
                     color: "white",
-                    size: 15,
+                    size: 30,
                   },
                 ]}
               />

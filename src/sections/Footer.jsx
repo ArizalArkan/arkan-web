@@ -1,29 +1,58 @@
-function Footer() {
+import { contactContent } from '../constants';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import Logo from '../components/ui/Logo';
+
+const SOCIAL_IDS = ['github', 'linkedin', 'email'];
+
+const socials = SOCIAL_IDS.map((id) => contactContent.commands.find((c) => c.id === id)).filter(
+  Boolean,
+);
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const Footer = () => {
+  const sectionRef = useScrollReveal();
+
   return (
-    <section className="c-space pt-7 pb-3 border-t border-black-300 flex justify-between items-center flex-wrap gap-5">
-      <div className="text-white-500 flex gap-2">
-        <p>Create with ❤</p>
-      </div>
+    <footer ref={sectionRef} className="border-t-3 border-ink bg-paper">
+      <div className="c-space mx-auto flex max-w-7xl flex-col gap-8 py-10">
+        <div data-reveal className="flex flex-wrap items-center justify-between gap-6">
+          <Logo variant="compact" />
 
-      <div className="flex gap-3">
+          <div className="flex items-center gap-2">
+            {socials.map((social) => (
+              <a
+                key={social.id}
+                href={social.href}
+                {...(social.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="nb-border bg-white px-3 py-2 font-mono text-[10px] uppercase tracking-wide text-ink shadow-nb transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:rotate-2 hover:bg-nb-lime">
+                {social.id}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div
-          className="social-icon cursor-pointer"
-          onClick={() => window.open("https://github.com/ArizalArkan")}
-        >
-          <img src="/assets/github.svg" alt="github" className="w-1/2 h-1/2" />
-        </div>
-        <div className="social-icon cursor-pointer">
-          <img
-            src="/assets/instagram.svg"
-            alt="instagram"
-            className="w-1/2 h-1/2"
-          />
+          data-reveal
+          className="flex flex-wrap items-center justify-between gap-4 border-t-2 border-dashed border-ink/30 pt-6">
+          <p className="font-mono text-xs text-ink/50">
+            © {new Date().getFullYear()} Arizal Arkan — built with React, Tailwind &amp; GSAP
+          </p>
+
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="nb-btn bg-white !px-3 !py-2 text-xs"
+            aria-label="Back to top">
+            <span className="nb-top-cue inline-block">&#9650;</span>
+            <span className="ml-1.5">back to top</span>
+          </button>
         </div>
       </div>
-
-      <p className="text-white-500">© Arizal Arkan 2025</p>
-    </section>
+    </footer>
   );
-}
+};
 
 export default Footer;

@@ -11,16 +11,49 @@ export const navLinks = [
     },
     {
       id: 3,
+      name: 'Experience',
+      href: '#experience',
+    },
+    {
+      id: 4,
       name: 'Work',
       href: '#work',
     },
     {
-      id: 4,
+      id: 5,
       name: 'Contact',
       href: '#contact',
     },
   ];
-  
+
+  export const heroContent = {
+    greetings: ['안녕하세요', 'こんにちは', 'Hola', 'Hi', 'Bonjour', 'Hai'],
+    name: "I'M ARKAN 👋",
+    headline: ['CRAFTING', 'DIGITAL', 'EXPERIENCES.'],
+    highlight: 'DIGITAL',
+    sticker: '★ FULL-STACK',
+    subhead:
+      'Full-stack software engineer building fast, accessible products end-to-end — React and Vue on the front, Node.js and Go on the back.',
+    ctaPrimary: { label: 'SEE MY WORK', href: '#work' },
+    ctaSecondary: { label: 'ABOUT ME', href: '#about' },
+    marquee: [
+      'AVAILABLE FOR WORK',
+      'REACT',
+      'VUE.JS',
+      'REACT NATIVE',
+      'NODE.JS',
+      'EXPRESS.JS',
+      'NEST.JS',
+      'GOLANG',
+      'MONGODB',
+      'POSTGRESQL',
+      'TAILWIND',
+      'TYPESCRIPT',
+      'THREE.JS',
+      'GSAP',
+    ],
+  };
+
   export const clientReviews = [
     {
       id: 1,
@@ -246,17 +279,6 @@ export const navLinks = [
     },
   ];
   
-  export const calculateSizes = (isSmall, isMobile, isTablet) => {
-    return {
-      deskScale: isSmall ? 0.05 : isMobile ? 0.06 : 0.095,
-      deskPosition: isMobile ? [0.5, -4.5, 0] : [0.25, -7.5, 0],
-      cubePosition: isSmall ? [4, -5, 0] : isMobile ? [5, -5, 0] : isTablet ? [5, -5, 0] : [14, -6.7, 0],
-      reactLogoPosition: isSmall ? [3, 4, 0] : isMobile ? [5, 4, 0] : isTablet ? [5, 4, 0] : [17, 1, 0],
-      ringPosition: isSmall ? [-5, 7, 0] : isMobile ? [-10, 10, 0] : isTablet ? [-12, 10, 0] : [-40, 10, 0],
-      targetPosition: isSmall ? [-5, -10, -10] : isMobile ? [-9, -10, -10] : isTablet ? [-11, -7, -10] : [-20, -15, -10],
-    };
-  };
-  
   export const workExperiences = [
     {
       id: 1,
@@ -286,3 +308,160 @@ export const navLinks = [
       animation: 'salute',
     },
   ];
+  // Real products/platforms from the CV's work history — not fabricated
+  // demo case studies. No public per-product links exist (internal /
+  // enterprise apps), so every card points to the GitHub profile instead
+  // of a fake live-demo URL.
+  export const workProjects = [
+    {
+      id: 1,
+      title: 'Bank Saqu',
+      subtitle: 'Smart Digital Banking Platform',
+      period: '2025 — Present',
+      desc: 'Payment operations dashboard and a React Native banking app covering biller payments, QRIS, transfers, and virtual accounts.',
+      tags: ['REACT', 'REACT NATIVE', 'DESIGN SYSTEM'],
+      accent: '#FFD93D',
+      href: 'https://play.google.com/store/apps/details?id=bjj.bank.digital.indo.prod&hl=id',
+      ctaLabel: 'GET THE APP',
+      image: '/assets/banksaqu.webp',
+    },
+    {
+      id: 2,
+      title: 'AltaraOne',
+      subtitle: 'Digital Audit & Business Process Platform',
+      period: '2025 · Freelance, Lead Frontend Engineer',
+      desc: 'Led frontend architecture from scratch, building a scalable Next.js codebase on an Atomic Design system.',
+      tags: ['NEXT.JS', 'ATOMIC DESIGN', 'LEAD'],
+      accent: '#FF6B9D',
+      href: 'https://github.com/ArizalArkan',
+      ctaLabel: 'GITHUB',
+      image: '/assets/altaraone.webp',
+    },
+    {
+      id: 3,
+      title: 'Ruparupa.com',
+      subtitle: "Indonesia's No.1 Home, Living & Furniture E-commerce",
+      period: '2022 — 2025',
+      desc: 'Product detail pages, order management dashboards, and secure Express/Nest middleware protecting sensitive data at scale.',
+      tags: ['NEXT.JS', 'EXPRESS.JS', 'NEST.JS'],
+      accent: '#A8E10C',
+      href: 'https://www.ruparupa.com/',
+      ctaLabel: 'VISIT SITE',
+      image: '/assets/ruparupacom.webp',
+    },
+    {
+      id: 4,
+      title: 'Vision+',
+      subtitle: 'OTT Streaming Platform',
+      period: '2022',
+      desc: 'Dolby Atmos audio integration, video player and Midtrans payments, plus the movie rental experience.',
+      tags: ['REACT', 'MIDTRANS', 'ANALYTICS'],
+      accent: '#7DD3FC',
+      href: 'https://www.visionplus.id/webclient/',
+      ctaLabel: 'VISIT SITE',
+      image: '/assets/vision+.webp',
+    },
+    {
+      id: 5,
+      title: 'My IndiHome',
+      subtitle: 'Telkomsel Customer Platform',
+      period: '2020 — 2022',
+      desc: 'Nearest-plaza locator, Wi-Fi speed check, and real-time customer service chat built on Socket.io.',
+      tags: ['REACT', 'SOCKET.IO'],
+      accent: '#FFD93D',
+      href: 'https://www.telkomsel.com/landingpage/regular/reg5?utm_source=pmax&utm_medium=all_placement&utm_campaign=mdm_aon_TSEL-Indihomearea-BC-10729_convert_leads_area2_reg4reg5_pmax_na&utm_term=jpeg_mp4&utm_content=signal_bau_acq_internetonly500mbps&gad_source=1&gad_campaignid=21784947344&gbraid=0AAAAADPZ06Pm4Q5KJ0ENeHGnDNngdAktG&gclid=CjwKCAjwqJXUBhBNEiwA8BgG7vyHDh8Dg_Yfmstb9gyeGUWDUv_ELRB4a_1rinZfA7RDZCkK62Bo2BoCEDgQAvD_BwE',
+      ctaLabel: 'VISIT SITE',
+      image: '/assets/indihome.webp',
+    },
+    {
+      id: 6,
+      title: 'Palapa One',
+      subtitle: 'Event Management App',
+      period: '2019 — 2020',
+      desc: 'Event dashboards for registration and rundown data, with real-time chat for audience engagement.',
+      tags: ['REACT'],
+      accent: '#FF6B9D',
+      href: 'https://github.com/ArizalArkan',
+      ctaLabel: 'GITHUB',
+      image: '/assets/palapaone.webp',
+    },
+    {
+      id: 7,
+      title: 'DataExchange',
+      subtitle: 'Data Marketplace Platform',
+      period: '2020 — 2021',
+      desc: 'Refactored the landing page for performance and shipped 80% unit test coverage across the internal dashboard.',
+      tags: ['REACT', 'TESTING'],
+      accent: '#A8E10C',
+      href: 'https://dx-stage.udata.id/',
+      ctaLabel: 'VISIT SITE',
+      image: '/assets/dataexchange.webp',
+    },
+  ];
+
+  export const contactContent = {
+    eyebrow: 'AVAILABLE FOR OPPORTUNITIES',
+    status: 'open to opportunities · software engineer',
+    commands: [
+      {
+        id: 'email',
+        command: 'contact --email',
+        value: 'arizalarkan@gmail.com',
+        href: 'mailto:arizalarkan@gmail.com',
+        external: false,
+      },
+      {
+        id: 'github',
+        command: 'contact --github',
+        value: 'github.com/ArizalArkan',
+        href: 'https://github.com/ArizalArkan',
+        external: true,
+      },
+      {
+        id: 'linkedin',
+        command: 'contact --linkedin',
+        value: 'linkedin.com/in/arizal-arkan-09',
+        href: 'https://www.linkedin.com/in/arizal-arkan-09/',
+        external: true,
+      },
+      {
+        id: 'resume',
+        command: 'contact --resume',
+        value: 'view resume',
+        href: '#/cv',
+        external: false,
+        internalRoute: true,
+      },
+    ],
+  };
+
+  export const aboutContent = {
+    yearsLabel: '6+',
+    statHeadline: ['years shipping', 'production code'],
+    statBody:
+      'Full-stack software engineer blending sharp UI/UX with backend that holds up in production.',
+    // Mapped from real work history: Bank Saqu (banking), Ruparupa.com
+    // (e-commerce), Vision+ (streaming), Telkom Group's three products
+    // (telco), AltaraOne (audit).
+    industries: ['Banking', 'E-commerce', 'Streaming', 'Telco', 'Audit'],
+    industriesBody:
+      'Balancing user needs, business goals and engineering constraints, wherever the domain.',
+    location: {
+      city: 'Jakarta, ID',
+      headline: "I'm flexible",
+      body: 'Based in Jakarta, Indonesia — open to work from anywhere.',
+      cta: { label: 'Available — get in touch', href: '#contact' },
+    },
+    passion: {
+      eyebrow: 'Why I code',
+      headline: 'Problem-solving is the whole point',
+      body:
+        "Programming isn't just my profession — it's my passion. I enjoy exploring new technologies and turning messy requirements into something people actually enjoy using.",
+      tags: ['REACT', 'NODE.JS', 'GOLANG'],
+    },
+    resume: {
+      headline: 'Want the full story?',
+      body: 'Work history, stack, and everything else — in one place.',
+      cta: { label: 'View resume', href: '#/cv' },
+    },
+  };

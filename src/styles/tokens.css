@@ -1,0 +1,104 @@
+/*
+ * Design tokens. Source of truth: DESIGN.md §3, §4, §5, §7, §11.
+ * Colors are mirrored in src/world/theme.ts; a unit test keeps the two in sync.
+ * Tailwind's default palette, radii, blurred shadows and type scale are reset
+ * on purpose so components can only reach for tokens.
+ */
+@theme {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+  --breakpoint-*: initial;
+  --blur-*: initial;
+  --ease-*: initial;
+
+  --color-night-900: #0f0b1e;
+  --color-night-800: #1a1433;
+  --color-night-700: #2a2150;
+  --color-dusk-500: #5b4b9e;
+  --color-dusk-300: #b9a9d9;
+  --color-parchment-100: #f4e8c8;
+  --color-parchment-300: #d9c594;
+  --color-ink-900: #1b1420;
+  --color-ink-600: #5a4630;
+  --color-gold-400: #f2c14e;
+  --color-gold-600: #c8902a;
+  --color-ember-500: #e8643c;
+  --color-hp-500: #d8434f;
+  --color-hp-300: #ff6b78;
+  --color-herb-400: #6bcb77;
+  --color-mana-400: #4fb8e8;
+  /* Dark variants for text on parchment (DESIGN.md §3.2). */
+  --color-hp-700: #a8322f;
+  --color-herb-700: #2e6b3a;
+  --color-mana-700: #1f5f8a;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-display: 'Press Start 2P', monospace;
+  --font-ui: 'Pixelify Sans Variable', system-ui, sans-serif;
+  --font-body: 'Crimson Pro Variable', Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  /* Type scale (DESIGN.md §4.1). rem keeps browser text zoom working. */
+  --text-display-xl: 2rem;
+  --text-display-xl--line-height: 3rem;
+  --text-display-lg: 1.5rem;
+  --text-display-lg--line-height: 2.25rem;
+  --text-display-md: 1rem;
+  --text-display-md--line-height: 1.5rem;
+  --text-display-sm: 0.5rem;
+  --text-display-sm--line-height: 1rem;
+  --text-ui-lg: 1.25rem;
+  --text-ui-lg--line-height: 1.75rem;
+  --text-ui-md: 1rem;
+  --text-ui-md--line-height: 1.5rem;
+  --text-ui-sm: 0.875rem;
+  --text-ui-sm--line-height: 1.25rem;
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 1.875rem;
+  --text-body-md: 1.125rem;
+  --text-body-md--line-height: 1.75rem;
+  --text-body-sm: 1rem;
+  --text-body-sm--line-height: 1.5rem;
+
+  /* One UI pixel. Every spacing utility is a multiple of it: p-4 = 4 x --px. */
+  --spacing: var(--px);
+
+  /* DESIGN.md §9: sm 480, md 768, lg 1024, xl 1440. */
+  --breakpoint-sm: 30rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 90rem;
+
+  /* The only shadow: hard offset, no blur (DESIGN.md §5.4). */
+  --shadow-pixel: 0 calc(2 * var(--px)) 0 var(--color-night-900);
+
+  --ease-pixel: steps(4, end);
+  --ease-smooth: cubic-bezier(0.45, 0, 0.55, 1);
+
+  /* Window widths (DESIGN.md §8.3). */
+  --container-read: 45rem;
+  --container-grid: 60rem;
+}
+
+:root {
+  --px: 4px;
+  --motion-instant: 80ms;
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --motion-scene: 600ms;
+  --motion-cine: 1200ms;
+  --touch-target: 44px;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --px: 3px;
+  }
+}

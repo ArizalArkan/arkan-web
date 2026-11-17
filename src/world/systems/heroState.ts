@@ -17,4 +17,9 @@ export type InteractableEntry = Reachable & InteractableInfo & { onInteract: () 
 export const interactables = new Map<string, InteractableEntry>();
 
 /** Set when the camera should jump instead of glide (Fast Travel, first frame). */
-export const cameraState = { snap: true };
+export const cameraState = {
+  snap: true,
+  /** Distance multiplier and extra pitch, tweened by the intro (1 and 0 at rest). */
+  zoom: 1,
+  extraPitchDeg: 0,
+};

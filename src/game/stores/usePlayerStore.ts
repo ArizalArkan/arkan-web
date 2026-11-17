@@ -44,13 +44,17 @@ type PlayerState = {
   setTransitioning: (value: boolean) => void;
 };
 
+// Phones and tablets start with touch hints; any key press switches to keyboard.
+const prefersTouch = () =>
+  typeof window !== 'undefined' && Boolean(window.matchMedia?.('(pointer: coarse)').matches);
+
 export const usePlayerStore = create<PlayerState>()((set, get) => ({
   moveDir: { x: 0, z: 0 },
   moveTarget: null,
   pendingInteract: null,
   zone: null,
   active: null,
-  inputDevice: 'keyboard',
+  inputDevice: prefersTouch() ? 'touch' : 'keyboard',
   cameraMode: 'follow',
   travel: null,
   isTransitioning: false,

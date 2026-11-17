@@ -14,7 +14,6 @@ type LanternProps = {
 };
 
 const LIGHT_HEIGHT = 1.7;
-const BASE_INTENSITY = 9;
 
 /** Lamp post: lit sprite, an unlit flame that blooms, and an optional warm light. */
 export function Lantern({ position, castLight = false, phase = 0 }: LanternProps) {
@@ -25,7 +24,7 @@ export function Lantern({ position, castLight = false, phase = 0 }: LanternProps
     if (!light.current || qa.freeze) return;
     const t = clock.elapsedTime + phase;
     light.current.intensity =
-      BASE_INTENSITY *
+      lighting.lanternIntensity *
       (1 + lighting.lanternFlicker * (Math.sin(t * 7.3) * 0.6 + Math.sin(t * 13.1) * 0.4));
   });
 
@@ -44,8 +43,8 @@ export function Lantern({ position, castLight = false, phase = 0 }: LanternProps
           ref={light}
           position={[0, LIGHT_HEIGHT, 0.4]}
           color={lighting.lanternHot}
-          intensity={BASE_INTENSITY}
-          distance={7}
+          intensity={lighting.lanternIntensity}
+          distance={lighting.lanternDistance}
           decay={1.6}
         />
       ) : null}

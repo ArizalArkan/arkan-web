@@ -16,8 +16,10 @@ export function ControlHints() {
   const device = usePlayerStore((state) => state.inputDevice);
   const requestInteract = usePlayerStore((state) => state.requestInteract);
   const isBlocked = useUIStore(selectIsWorldBlocked);
+  // Hidden during the intro and scene transitions: nothing can be acted on then.
+  const isTransitioning = usePlayerStore((state) => state.isTransitioning);
 
-  if (isBlocked) return null;
+  if (isBlocked || isTransitioning) return null;
 
   return (
     <div

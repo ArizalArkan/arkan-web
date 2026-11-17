@@ -1,12 +1,13 @@
 import { useLoader } from '@react-three/fiber';
 import {
+  Color,
   DoubleSide,
   MeshBasicMaterial,
   MeshLambertMaterial,
   TextureLoader,
   type Texture,
 } from 'three';
-import { palette } from '../theme';
+import { lighting, palette } from '../theme';
 import { atlases, type AtlasId } from './atlas';
 import { pixelTexture } from './pixelTexture';
 
@@ -14,7 +15,7 @@ type AtlasMaterials = {
   texture: Texture;
   /** Lit by the scene: lantern light warms sprites, the HD-2D signature. */
   lit: MeshLambertMaterial;
-  /** Unlit and not tone mapped: windows and flames that feed the bloom pass. */
+  /** Unlit and brighter than white: windows and flames that feed the bloom pass. */
   glow: MeshBasicMaterial;
   /** Flat gold copy used for the "in range" outline. */
   outline: MeshBasicMaterial;
@@ -35,7 +36,10 @@ export function useAtlas(id: AtlasId): AtlasMaterials {
     materials = {
       texture,
       lit: new MeshLambertMaterial(shared),
-      glow: new MeshBasicMaterial({ ...shared, toneMapped: false }),
+      glow: new MeshBasicMaterial({
+        ...shared,
+        color: new Color().setScalar(lighting.glowBoost),
+      }),
       outline: new MeshBasicMaterial({ ...shared, color: palette.gold400, toneMapped: false }),
     };
     cache.set(id, materials);

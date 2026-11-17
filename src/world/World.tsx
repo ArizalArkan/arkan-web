@@ -1,20 +1,24 @@
 import { useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { world } from '@/content/world';
 import { usePlayerStore } from '@/game/stores/usePlayerStore';
+import { useGameStore } from '@/game/stores/useGameStore';
+import { selectReducedMotion, selectTier, useSettingsStore } from '@/game/stores/useSettingsStore';
 import { selectIsWorldBlocked, useUIStore } from '@/game/stores/useUIStore';
 import { CameraRig } from './camera/CameraRig';
+import { playIntro } from './camera/intro';
 import { BlockedTapMarker } from './entities/BlockedTapMarker';
 import { Hero } from './entities/Hero';
 import { LocationSite } from './entities/LocationSite';
 import { Npc } from './entities/Npc';
 import { Scenery } from './entities/Scenery';
 import { groundTiles } from './ground';
+import { Lighting } from './lighting/Lighting';
 import { TileGround } from './primitives/TileGround';
+import { qa } from './qa';
 import { useInputSystem } from './systems/useInputSystem';
 import { useProximitySystem } from './systems/useProximitySystem';
 import { useTravelSystem } from './systems/useTravelSystem';
-import { lighting } from './theme';
 
 /** Root scene: the town, its people, and the systems that run it. */
 export function World() {
@@ -22,7 +26,17 @@ export function World() {
   useProximitySystem();
   useTravelSystem();
 
+  const storeTier = useSettingsStore(selectTier);
+  const tier = qa.tier ?? storeTier;
   const tiles = useMemo(() => groundTiles(world), []);
+
+  // First visit only: a short establishing shot. Never under reduced motion or QA.
+  useEffect(() => {
+    const isFirstVisit = useGameStore.getState().visited.length === 0;
+    const reducedMotion = selectReducedMotion(useSettingsStore.getState());
+    if (!isFirstVisit || reducedMotion || qa.enabled) return undefined;
+    return playIntro();
+  }, []);
 
   // Click or tap the ground to walk there.
   const onGroundDown = (event: ThreeEvent<PointerEvent>) => {
@@ -35,15 +49,7 @@ export function World() {
 
   return (
     <>
-      <color attach="background" args={[lighting.fogNear]} />
-      <hemisphereLight
-        args={[lighting.hemisphereSky, lighting.hemisphereGround, lighting.hemisphereIntensity]}
-      />
-      <directionalLight
-        color={lighting.keyLight}
-        intensity={lighting.keyIntensity}
-        position={[-8, 14, 6]}
-      />
+      <Lighting tier={tier} />
 
       <CameraRig />
       <TileGround tiles={tiles} onPointerDown={onGroundDown} />

@@ -23,14 +23,32 @@ export const palette = {
 export const lighting = {
   hemisphereSky: '#3b2f7a',
   hemisphereGround: palette.night800,
-  hemisphereIntensity: 0.9,
+  /** Low but never black: the town stays readable away from the lanterns. */
+  hemisphereIntensity: 4.2,
   keyLight: '#9fb4ff',
-  keyIntensity: 1.1,
+  keyIntensity: 1.5,
+  /** Moon direction: high, from the south-west, so fronts catch the light. */
+  keyPosition: [-14, 22, 12] as [number, number, number],
   lanternWarm: palette.ember500,
   lanternHot: palette.gold400,
+  lanternIntensity: 14,
+  lanternDistance: 8,
   lanternFlicker: 0.08,
   fogNear: palette.night900,
   fogFar: palette.night700,
+  /** Fog starts past the hero and swallows the grass apron. */
+  fogStart: 26,
+  fogEnd: 52,
+  /** Brightness boost for unlit glow sprites so they cross the bloom threshold. */
+  glowBoost: 1.7,
+} as const;
+
+/** Post-processing and shadows per quality tier (DESIGN.md §9.1). */
+export const tiers = {
+  high: { shadowMap: 2048, bloom: 0.7, tiltShift: 0.22, tiltSamples: 10, vignette: 0.3 },
+  medium: { shadowMap: 1024, bloom: 0.55, tiltShift: 0.14, tiltSamples: 5, vignette: 0.3 },
+  // No composer at all: palette, composition and legibility must not depend on it.
+  low: { shadowMap: 0, bloom: 0, tiltShift: 0, tiltSamples: 0, vignette: 0 },
 } as const;
 
 export const camera = {

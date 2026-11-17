@@ -1,3 +1,4 @@
+import { PerformanceMonitor } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useState } from 'react';
 import { copy } from '@/content/copy';
@@ -11,6 +12,8 @@ import { DialogLayer } from '@/ui/hud/DialogLayer';
 import { SceneTransition } from '@/ui/patterns/SceneTransition';
 import { ToastViewport } from '@/ui/patterns/ToastViewport';
 import { Window } from '@/ui/patterns/Window';
+import { Effects } from '@/world/effects/Effects';
+import { qa } from '@/world/qa';
 import { camera as cameraTheme, maxDpr } from '@/world/theme';
 import { World } from '@/world/World';
 
@@ -19,12 +22,26 @@ const isCoarsePointer = () =>
 
 /** Adventure Mode: the 3D town on a fixed canvas, with the DOM HUD on top. */
 export default function AdventureApp() {
-  const tier = useSettingsStore(selectTier);
+  const storeTier = useSettingsStore(selectTier);
+  const tier = qa.tier ?? storeTier;
   const reducedMotion = useSettingsStore(selectReducedMotion);
   const travel = usePlayerStore((state) => state.travel);
   const toasts = useUIStore((state) => state.toasts);
   const dismissToast = useUIStore((state) => state.dismissToast);
   const [isHidden, setIsHidden] = useState(() => document.hidden);
+
+  // Auto quality: step down when frames drop, back up when there is headroom.
+  // A manual choice in Settings always wins (selectTier ignores autoTier then).
+  const onDecline = () => {
+    const settings = useSettingsStore.getState();
+    if (settings.quality === 'auto' && settings.lowerAutoTier()) {
+      useUIStore.getState().pushToast({ kind: 'info', title: copy.toasts.qualityLowered });
+    }
+  };
+  const onIncline = () => {
+    const settings = useSettingsStore.getState();
+    if (settings.quality === 'auto') settings.raiseAutoTier();
+  };
 
   // Stop rendering while the tab is in the background (ARCHITECTURE.md §10.2).
   useEffect(() => {
@@ -45,8 +62,10 @@ export default function AdventureApp() {
           aria-label={copy.title.canvasLabel}
           role="img"
         >
+          <PerformanceMonitor onDecline={onDecline} onIncline={onIncline} flipflops={3} />
           <Suspense fallback={null}>
             <World />
+            <Effects tier={tier} />
           </Suspense>
         </Canvas>
       </div>

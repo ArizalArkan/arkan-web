@@ -54,6 +54,7 @@ export const copy = {
     move: 'Move',
     interact: 'Interact',
     talk: 'Talk',
+    readSign: 'Read the signpost',
     next: 'Next',
     open: 'Open',
     close: 'Close',

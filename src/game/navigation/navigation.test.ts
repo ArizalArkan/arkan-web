@@ -4,7 +4,14 @@ import { openLocation, openQuest, talkTo } from '../actions';
 import { emptyProgress } from '../rules/progress';
 import { useGameStore } from '../stores/useGameStore';
 import { useUIStore } from '../stores/useUIStore';
-import { buildGrid, isWalkable, moveWithCollision, nearestWalkable, type Point } from './grid';
+import {
+  buildGrid,
+  isWalkable,
+  moveWithCollision,
+  nearestWalkable,
+  talkPoint,
+  type Point,
+} from './grid';
 import {
   animationFor,
   createBody,
@@ -22,13 +29,17 @@ const guild = world.locations.find((location) => location.id === 'guild-hall')!;
 const out: Point = { x: 0, z: 0 };
 
 describe('collision grid', () => {
-  it('spawn, every door and every NPC stand on walkable ground', () => {
+  it('spawn, every door and every NPC talk spot are walkable', () => {
     expect(isWalkable(grid, world.spawn[0], world.spawn[2])).toBe(true);
     for (const location of world.locations) {
       expect(isWalkable(grid, location.door[0], location.door[2]), location.id).toBe(true);
     }
-    for (const npc of world.npcs)
-      expect(isWalkable(grid, npc.position[0], npc.position[2])).toBe(true);
+    for (const npc of world.npcs) {
+      // NPCs are solid; the spot in front of them is where the hero stands to talk.
+      expect(isWalkable(grid, npc.position[0], npc.position[2])).toBe(false);
+      const [tx, , tz] = talkPoint(npc.position);
+      expect(isWalkable(grid, tx, tz), npc.id).toBe(true);
+    }
   });
 
   it('blocks buildings, obstacles and everything outside the town', () => {

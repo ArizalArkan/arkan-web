@@ -20,6 +20,8 @@ export const CELLS_PER_UNIT = 2;
 export const HERO_RADIUS = 0.3;
 /** Keep the hero this far inside the town edge. */
 const EDGE_MARGIN = 0.75;
+const NPC_SIZE = 0.5;
+const TALK_DISTANCE = 1;
 
 type Solid = { x: number; z: number; w: number; d: number };
 
@@ -31,7 +33,19 @@ export const solidsOf = (world: World): Solid[] => [
     d: location.footprint.d,
   })),
   ...world.obstacles.map(({ x, z, w, d }) => ({ x, z, w, d })),
+  // People are solid too: the hero stops in front of them, not inside them.
+  ...world.npcs.map((npc) => ({
+    x: npc.position[0],
+    z: npc.position[2],
+    w: NPC_SIZE,
+    d: NPC_SIZE,
+  })),
 ];
+
+/** Where the hero stands to talk to an NPC: one step south, facing them. */
+export const talkPoint = (
+  position: readonly [number, number, number],
+): [number, number, number] => [position[0], 0, position[2] + TALK_DISTANCE];
 
 export const buildGrid = (world: World, radius = HERO_RADIUS): Grid => {
   const cell = 1 / CELLS_PER_UNIT;

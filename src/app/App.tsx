@@ -3,8 +3,11 @@ import { profile } from '@/content/profile';
 import { ReducedMotionProvider, usePrefersReducedMotion } from '@/lib/motion';
 
 const ComponentCatalog = lazy(() => import('./ComponentCatalog'));
+const AdventureApp = lazy(() => import('./AdventureApp'));
 
-const isCatalog = () => new URLSearchParams(window.location.search).has('catalog');
+const params = () => new URLSearchParams(window.location.search);
+const isCatalog = () => params().has('catalog');
+const isAdventure = () => params().get('mode') === 'adventure';
 
 // Temporary shell until Phase 7 adds mode selection.
 export function App() {
@@ -17,6 +20,14 @@ export function App() {
           <ComponentCatalog />
         </Suspense>
       </ReducedMotionProvider>
+    );
+  }
+
+  if (isAdventure()) {
+    return (
+      <Suspense fallback={null}>
+        <AdventureApp />
+      </Suspense>
     );
   }
 

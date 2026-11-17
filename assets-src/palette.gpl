@@ -1,0 +1,40 @@
+GIMP Palette
+Name: Arkan Journey
+Columns: 8
+# Core tokens (DESIGN.md §3.1) plus the material ramps used by
+# scripts/build-sprites.mjs. Max 32 colors per atlas.
+ 15  11  30	night-900
+ 26  20  51	night-800
+ 42  33  80	night-700
+ 91  75 158	dusk-500 / roof slate
+185 169 217	dusk-300 / glasses lens
+244 232 200	parchment-100 / plaster
+217 197 148	parchment-300 / plaster shade
+179 155 110	plaster dark
+ 27  20  32	ink-900 / outline
+ 90  70  48	ink-600 / dirt dark
+242 193  78	gold-400
+200 144  42	gold-600
+232 100  60	ember-500 / terracotta light
+107 203 119	herb-400
+ 79 184 232	mana-400 / water light
+ 63 107  82	grass
+ 79 128  96	grass light
+ 50  88  69	grass dark
+122  98  72	dirt
+147 122  92	dirt light
+125 120 150	stone
+154 149 179	stone light
+ 94  90 120	stone dark
+ 69  64  96	mortar
+138  90  60	wood
+168 113  74	wood light
+ 61  44  36	wood dark
+117 101 184	slate light
+ 67  56 122	slate dark
+200  85  58	terracotta
+154  63  44	terracotta dark
+ 47 111 158	water
+ 31  79 120	water dark
+240 200 160	skin
+208 154 120	skin shade

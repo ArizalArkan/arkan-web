@@ -10,6 +10,17 @@ taken from a commercial game.
 | `banksaqu.webp`, `altaraone.webp`, `ruparupacom.webp`, `vision+.webp`, `indihome.webp`, `dataexchange.webp`, `palapaone.webp` | Project preview images | Supplied by the owner (previous site) | Owner's screenshots of products they worked on. Product names and logos belong to their owners |
 | `ruparupa.png`, `telkom.png`, `vision.png` | Company logos (currently unused) | Supplied by the owner (previous site) | Trademarks of their owners; nominative use only |
 
+## Generated pixel art
+
+| File(s) | What | Source | License / status |
+|---|---|---|---|
+| `sprites/characters.png` + `.json` | Hero (idle, walk, 4 directions) and Wren the guide (idle, 4 directions) | Drawn in code by `scripts/build-sprites.mjs` for this project | Original work, owned by the project. Placeholder quality: replace with hand-drawn sprites when available |
+| `sprites/world.png` + `.json` | Ground tiles, wall and roof materials, door, window, signs, trees, bush, lantern, signpost, quest board, fountain, gate post, markers | Same generator | Original work, owned by the project. Placeholder quality |
+| `/favicon-16.png`, `/favicon-32.png`, `/apple-touch-icon.png`, `/icon-512.png` | Shield emblem with an "A" | Same generator | Original work, owned by the project |
+
+No sprite, tile, font or sound comes from a commercial game. Sound effects are
+synthesized at runtime (`src/services/audio.ts`), so there are no audio files.
+
 ## Fonts (bundled from npm, not in this folder)
 
 | Font | Package | License |

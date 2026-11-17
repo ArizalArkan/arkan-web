@@ -1,0 +1,230 @@
+{
+  "image": "/assets/sprites/world.png",
+  "size": {
+    "w": 512,
+    "h": 512
+  },
+  "ppu": 32,
+  "frames": {
+    "prop/gate-post": {
+      "x": 2,
+      "y": 2,
+      "w": 32,
+      "h": 96
+    },
+    "prop/tree-a": {
+      "x": 36,
+      "y": 2,
+      "w": 64,
+      "h": 96
+    },
+    "prop/tree-b": {
+      "x": 102,
+      "y": 2,
+      "w": 64,
+      "h": 96
+    },
+    "prop/fountain-0": {
+      "x": 168,
+      "y": 2,
+      "w": 96,
+      "h": 80
+    },
+    "prop/fountain-1": {
+      "x": 266,
+      "y": 2,
+      "w": 96,
+      "h": 80
+    },
+    "prop/quest-board": {
+      "x": 364,
+      "y": 2,
+      "w": 96,
+      "h": 72
+    },
+    "prop/door": {
+      "x": 462,
+      "y": 2,
+      "w": 32,
+      "h": 64
+    },
+    "prop/lantern-post": {
+      "x": 2,
+      "y": 100,
+      "w": 16,
+      "h": 64
+    },
+    "prop/signpost": {
+      "x": 20,
+      "y": 100,
+      "w": 32,
+      "h": 48
+    },
+    "prop/bush": {
+      "x": 54,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "prop/window": {
+      "x": 88,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "roof/iron": {
+      "x": 122,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "roof/slate": {
+      "x": 156,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "roof/teal": {
+      "x": 190,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "roof/terra": {
+      "x": 224,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "sign/armory": {
+      "x": 258,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "sign/guild-hall": {
+      "x": 292,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "sign/library": {
+      "x": 326,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "sign/post-office": {
+      "x": 360,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "tile/grass-a": {
+      "x": 394,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "tile/grass-b": {
+      "x": 428,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "tile/grass-c": {
+      "x": 462,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    "tile/path-a": {
+      "x": 2,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "tile/path-b": {
+      "x": 36,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "tile/plaza-a": {
+      "x": 70,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "tile/plaza-b": {
+      "x": 104,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "wall/brick": {
+      "x": 138,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "wall/plaster": {
+      "x": 172,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "wall/plaster-plain": {
+      "x": 206,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "wall/stone": {
+      "x": 240,
+      "y": 166,
+      "w": 32,
+      "h": 32
+    },
+    "marker/check": {
+      "x": 274,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    },
+    "marker/cross": {
+      "x": 292,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    },
+    "marker/exclaim": {
+      "x": 310,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    },
+    "marker/talk": {
+      "x": 328,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    },
+    "prop/lantern-flame": {
+      "x": 346,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    }
+  },
+  "animations": {
+    "prop/fountain": {
+      "frames": [
+        "prop/fountain-0",
+        "prop/fountain-1"
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "image": "/assets/sprites/characters.png",
+  "size": {
+    "w": 256,
+    "h": 256
+  },
+  "ppu": 32,
+  "frames": {
+    "hero/idle-down-0": {
+      "x": 2,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-down-1": {
+      "x": 36,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-left-0": {
+      "x": 70,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-left-1": {
+      "x": 104,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-right-0": {
+      "x": 138,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-right-1": {
+      "x": 172,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-up-0": {
+      "x": 206,
+      "y": 2,
+      "w": 32,
+      "h": 48
+    },
+    "hero/idle-up-1": {
+      "x": 2,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-down-0": {
+      "x": 36,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-down-1": {
+      "x": 70,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-down-2": {
+      "x": 104,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-down-3": {
+      "x": 138,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-left-0": {
+      "x": 172,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-left-1": {
+      "x": 206,
+      "y": 52,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-left-2": {
+      "x": 2,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-left-3": {
+      "x": 36,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-right-0": {
+      "x": 70,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-right-1": {
+      "x": 104,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-right-2": {
+      "x": 138,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-right-3": {
+      "x": 172,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-up-0": {
+      "x": 206,
+      "y": 102,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-up-1": {
+      "x": 2,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-up-2": {
+      "x": 36,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "hero/walk-up-3": {
+      "x": 70,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-down-0": {
+      "x": 104,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-down-1": {
+      "x": 138,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-left-0": {
+      "x": 172,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-left-1": {
+      "x": 206,
+      "y": 152,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-right-0": {
+      "x": 2,
+      "y": 202,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-right-1": {
+      "x": 36,
+      "y": 202,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-up-0": {
+      "x": 70,
+      "y": 202,
+      "w": 32,
+      "h": 48
+    },
+    "wren/idle-up-1": {
+      "x": 104,
+      "y": 202,
+      "w": 32,
+      "h": 48
+    }
+  },
+  "animations": {
+    "hero/idle-down": {
+      "frames": [
+        "hero/idle-down-0",
+        "hero/idle-down-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "hero/idle-up": {
+      "frames": [
+        "hero/idle-up-0",
+        "hero/idle-up-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "hero/idle-left": {
+      "frames": [
+        "hero/idle-left-0",
+        "hero/idle-left-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "hero/idle-right": {
+      "frames": [
+        "hero/idle-right-0",
+        "hero/idle-right-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "hero/walk-down": {
+      "frames": [
+        "hero/walk-down-0",
+        "hero/walk-down-1",
+        "hero/walk-down-2",
+        "hero/walk-down-3"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "hero/walk-up": {
+      "frames": [
+        "hero/walk-up-0",
+        "hero/walk-up-1",
+        "hero/walk-up-2",
+        "hero/walk-up-3"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "hero/walk-left": {
+      "frames": [
+        "hero/walk-left-0",
+        "hero/walk-left-1",
+        "hero/walk-left-2",
+        "hero/walk-left-3"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "hero/walk-right": {
+      "frames": [
+        "hero/walk-right-0",
+        "hero/walk-right-1",
+        "hero/walk-right-2",
+        "hero/walk-right-3"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "wren/idle-down": {
+      "frames": [
+        "wren/idle-down-0",
+        "wren/idle-down-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "wren/idle-up": {
+      "frames": [
+        "wren/idle-up-0",
+        "wren/idle-up-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "wren/idle-left": {
+      "frames": [
+        "wren/idle-left-0",
+        "wren/idle-left-1"
+      ],
+      "fps": 4,
+      "loop": true
+    },
+    "wren/idle-right": {
+      "frames": [
+        "wren/idle-right-0",
+        "wren/idle-right-1"
+      ],
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

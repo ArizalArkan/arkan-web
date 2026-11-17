@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './components.css';
+@import '@fontsource/press-start-2p/latin-400.css';
+@import '@fontsource-variable/pixelify-sans/wght.css';
+@import '@fontsource-variable/crimson-pro/wght.css';
+@import '@fontsource-variable/crimson-pro/wght-italic.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-night-900);
+    color: var(--color-parchment-100);
+    font-family: var(--font-body);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  /* Visible focus everywhere (DESIGN.md §6.2). Blink is pixel-stepped and
+     turns static under reduced motion. */
+  :focus-visible {
+    outline: 1px solid var(--color-gold-400);
+    outline-offset: 1px;
+    animation: focus-blink 1s steps(2, jump-none) infinite;
+  }
+
+  /* The app sets data-reduced-motion from settings (OS default, overridable). */
+  :root[data-reduced-motion='true'] :focus-visible {
+    animation: none;
+  }
+}
+
+@layer utilities {
+  /* Pixel text: no smoothing so Press Start 2P / Pixelify stay crisp. */
+  .pixel-text {
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
+    letter-spacing: 0;
+  }
+
+  .text-shadow-pixel {
+    text-shadow: var(--px) var(--px) 0 var(--color-ink-900);
+  }
+
+  .pixelated {
+    image-rendering: pixelated;
+  }
+
+  .touch-target {
+    min-width: var(--touch-target);
+    min-height: var(--touch-target);
+  }
+}
+
+@keyframes focus-blink {
+  0% {
+    outline-color: var(--color-gold-400);
+  }
+  100% {
+    outline-color: var(--color-gold-600);
+  }
+}

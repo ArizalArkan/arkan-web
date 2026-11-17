@@ -1,0 +1,362 @@
+/*
+ * Pixel-layer component styles (DESIGN.md §5.4, §6). Everything is built from
+ * tokens and multiples of --px. Corners are stair-stepped with clip-path; no
+ * border-radius, no blurred shadows.
+ *
+ * Layering trick: clip-path (and filter) on an ancestor would cut the
+ * backdrop blur off from the 3D canvas, so the frame's border, fill and
+ * shadow are absolutely positioned siblings of the content, never ancestors.
+ */
+
+@layer components {
+  :root {
+    --step: var(--px);
+  }
+  /* Declared on each user so a local --step changes the corner size. */
+  .pf-shadow,
+  .pf-border,
+  .pf-fill,
+  .pbtn-shadow,
+  .pbtn-border,
+  .pbtn-fill,
+  .ptag,
+  .stair {
+    --stair: polygon(
+      calc(2 * var(--step)) 0,
+      calc(100% - 2 * var(--step)) 0,
+      calc(100% - 2 * var(--step)) var(--step),
+      calc(100% - var(--step)) var(--step),
+      calc(100% - var(--step)) calc(2 * var(--step)),
+      100% calc(2 * var(--step)),
+      100% calc(100% - 2 * var(--step)),
+      calc(100% - var(--step)) calc(100% - 2 * var(--step)),
+      calc(100% - var(--step)) calc(100% - var(--step)),
+      calc(100% - 2 * var(--step)) calc(100% - var(--step)),
+      calc(100% - 2 * var(--step)) 100%,
+      calc(2 * var(--step)) 100%,
+      calc(2 * var(--step)) calc(100% - var(--step)),
+      var(--step) calc(100% - var(--step)),
+      var(--step) calc(100% - 2 * var(--step)),
+      0 calc(100% - 2 * var(--step)),
+      0 calc(2 * var(--step)),
+      var(--step) calc(2 * var(--step)),
+      var(--step) var(--step),
+      calc(2 * var(--step)) var(--step)
+    );
+  }
+
+  /* ---------- PixelFrame ---------- */
+
+  .pf {
+    --pf-border: var(--color-parchment-300);
+    --pf-hairline: var(--color-gold-600);
+    --pf-fill: color-mix(in srgb, var(--color-night-800) 92%, transparent);
+    --pf-text: var(--color-parchment-100);
+    position: relative;
+    isolation: isolate;
+    color: var(--pf-text);
+  }
+  .pf > .pf-shadow,
+  .pf > .pf-border,
+  .pf > .pf-fill {
+    position: absolute;
+    pointer-events: none;
+    clip-path: var(--stair);
+  }
+  .pf > .pf-shadow {
+    inset: 0;
+    z-index: -3;
+    background: var(--color-night-900);
+    transform: translateY(calc(2 * var(--px)));
+  }
+  .pf > .pf-border {
+    inset: 0;
+    z-index: -2;
+    background: var(--pf-border);
+  }
+  .pf > .pf-fill {
+    --step: calc(var(--px) * 0.75);
+    inset: var(--px);
+    z-index: -1;
+    background: var(--pf-fill);
+    box-shadow: inset 0 0 0 1px var(--pf-hairline);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .pf-parchment {
+    --pf-border: var(--color-ink-900);
+    --pf-hairline: var(--color-parchment-300);
+    --pf-fill: var(--color-parchment-100);
+    --pf-text: var(--color-ink-900);
+  }
+  .pf-parchment > .pf-fill {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* Ghost: border only. The border layer becomes a hollow outline. */
+  .pf-ghost > .pf-border {
+    /* Stair depth (2 x step) must equal ring width or the corners break. */
+    --step: calc(var(--px) * 0.5);
+    padding: var(--px);
+    -webkit-mask:
+      linear-gradient(var(--color-night-900) 0 0) content-box,
+      linear-gradient(var(--color-night-900) 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(var(--color-night-900) 0 0) content-box exclude,
+      linear-gradient(var(--color-night-900) 0 0);
+  }
+  .pf-ghost > .pf-fill {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .pf-ghost > .pf-shadow {
+    display: none;
+  }
+
+  /* Gold focus fails 3:1 on parchment, so light surfaces use ink instead. */
+  .surface-light :focus-visible {
+    outline: 2px solid var(--color-ink-900);
+    outline-offset: 1px;
+    animation: none;
+  }
+
+  /* ---------- PixelButton ---------- */
+
+  .pbtn {
+    --btn-border: var(--color-parchment-300);
+    --btn-fill: var(--color-night-800);
+    --btn-text: var(--color-parchment-100);
+    --btn-hover-border: var(--color-gold-400);
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(2 * var(--px));
+    min-height: var(--touch-target);
+    min-width: var(--touch-target);
+    padding: calc(2 * var(--px)) calc(4 * var(--px));
+    border: 0;
+    background: none;
+    color: var(--btn-text);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: transform var(--motion-instant) var(--ease-pixel);
+  }
+  .pbtn > .pbtn-shadow,
+  .pbtn > .pbtn-border,
+  .pbtn > .pbtn-fill {
+    position: absolute;
+    pointer-events: none;
+    clip-path: var(--stair);
+  }
+  .pbtn > .pbtn-shadow {
+    inset: 0;
+    z-index: -3;
+    background: var(--color-night-900);
+    transform: translateY(var(--px));
+    transition: opacity var(--motion-instant) steps(1);
+  }
+  .pbtn > .pbtn-border {
+    inset: 0;
+    z-index: -2;
+    background: var(--btn-border);
+  }
+  .pbtn > .pbtn-fill {
+    --step: calc(var(--px) * 0.75);
+    inset: var(--px);
+    z-index: -1;
+    background: var(--btn-fill);
+  }
+  @media (hover: hover) {
+    .pbtn:not(:disabled, [aria-disabled='true'], [aria-busy='true']):hover {
+      transform: translateY(calc(-1 * var(--px)));
+      --btn-border: var(--btn-hover-border);
+    }
+  }
+  .pbtn:not(:disabled, [aria-disabled='true'], [aria-busy='true']):active {
+    transform: translateY(var(--px));
+  }
+  .pbtn:not(:disabled, [aria-disabled='true']):active > .pbtn-shadow {
+    opacity: 0;
+  }
+  .pbtn:disabled,
+  .pbtn[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .pbtn[aria-busy='true'] {
+    cursor: progress;
+  }
+  .pbtn-primary {
+    --btn-border: var(--color-ink-900);
+    --btn-fill: var(--color-gold-400);
+    --btn-text: var(--color-ink-900);
+    --btn-hover-border: var(--color-parchment-100);
+  }
+  .pbtn-ghost {
+    --btn-border: transparent;
+    --btn-fill: transparent;
+    --btn-hover-border: var(--color-gold-400);
+  }
+  .pbtn-ghost > .pbtn-shadow {
+    display: none;
+  }
+  .pbtn-danger {
+    --btn-border: var(--color-ink-900);
+    --btn-fill: var(--color-hp-300);
+    --btn-text: var(--color-ink-900);
+    --btn-hover-border: var(--color-parchment-100);
+  }
+  .surface-light .pbtn-secondary {
+    --btn-border: var(--color-ink-900);
+    --btn-fill: var(--color-parchment-100);
+    --btn-text: var(--color-ink-900);
+    --btn-hover-border: var(--color-gold-600);
+  }
+  .surface-light .pbtn-ghost {
+    --btn-text: var(--color-ink-900);
+    --btn-hover-border: var(--color-ink-900);
+  }
+
+  /* ---------- Tag / badge ---------- */
+
+  .ptag {
+    --tag-fill: var(--color-night-700);
+    --tag-text: var(--color-parchment-100);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--px);
+    padding: calc(0.5 * var(--px)) calc(2 * var(--px));
+    background: var(--tag-fill);
+    color: var(--tag-text);
+    font-family: var(--font-ui);
+    font-size: var(--text-ui-sm);
+    line-height: var(--text-ui-sm--line-height);
+    font-weight: 500;
+    clip-path: var(--stair);
+    --step: calc(var(--px) * 0.5);
+    white-space: nowrap;
+  }
+  .ptag-gold {
+    --tag-fill: var(--color-gold-400);
+    --tag-text: var(--color-ink-900);
+  }
+  .ptag-mana {
+    --tag-fill: var(--color-mana-400);
+    --tag-text: var(--color-ink-900);
+  }
+  .ptag-herb {
+    --tag-fill: var(--color-herb-400);
+    --tag-text: var(--color-ink-900);
+  }
+  .ptag-hp {
+    --tag-fill: var(--color-hp-300);
+    --tag-text: var(--color-ink-900);
+  }
+  .surface-light .ptag-neutral {
+    --tag-fill: var(--color-parchment-300);
+    --tag-text: var(--color-ink-900);
+  }
+
+  /* ---------- Menu cursor ---------- */
+
+  .menu-cursor {
+    color: var(--color-gold-400);
+    animation: cursor-bob 600ms steps(2, jump-none) infinite;
+  }
+  .surface-light .menu-cursor {
+    color: var(--color-ink-900);
+  }
+
+  /* ---------- Window open: scale Y from center, pixel stepped ---------- */
+
+  .window-open {
+    animation: window-open var(--motion-base) var(--ease-pixel) both;
+    transform-origin: center;
+  }
+
+  .toast-in {
+    animation: toast-in var(--motion-base) var(--ease-pixel) both;
+  }
+
+  .blink-caret {
+    animation: caret-blink 1s steps(2, jump-none) infinite;
+  }
+
+  .spinner-frames {
+    animation: spinner 600ms steps(4, jump-none) infinite;
+  }
+
+  /* Reduced motion: no bob, no stepping scale, no blink. */
+  :root[data-reduced-motion='true'] .menu-cursor,
+  :root[data-reduced-motion='true'] .window-open,
+  :root[data-reduced-motion='true'] .toast-in,
+  :root[data-reduced-motion='true'] .blink-caret,
+  :root[data-reduced-motion='true'] .spinner-frames {
+    animation: none;
+  }
+
+  /* Freeze CSS motion for deterministic screenshots (ARCHITECTURE.md §11). */
+  :root[data-qa='true'] *,
+  :root[data-qa='true'] *::before,
+  :root[data-qa='true'] *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+  }
+}
+
+@keyframes cursor-bob {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--px)));
+  }
+}
+
+@keyframes window-open {
+  from {
+    transform: scaleY(0.1);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(calc(-6 * var(--px)));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes caret-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -81,7 +81,12 @@ export default tseslint.config(
   })),
   {
     // Config files and lazy-loaded app entries need a default export.
-    files: ['*.config.{ts,js}', 'src/app/AdventureApp.tsx', 'src/app/QuickReadApp.tsx'],
+    files: [
+      '*.config.{ts,js}',
+      'src/app/AdventureApp.tsx',
+      'src/app/QuickReadApp.tsx',
+      'src/app/ComponentCatalog.tsx',
+    ],
     rules: { 'no-restricted-syntax': 'off' },
   },
   {

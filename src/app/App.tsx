@@ -1,8 +1,25 @@
+import { lazy, Suspense } from 'react';
 import { profile } from '@/content/profile';
+import { ReducedMotionProvider, usePrefersReducedMotion } from '@/lib/motion';
 
-// Temporary shell: proves the toolchain and content layer render.
-// Replaced by mode selection in Phase 7.
+const ComponentCatalog = lazy(() => import('./ComponentCatalog'));
+
+const isCatalog = () => new URLSearchParams(window.location.search).has('catalog');
+
+// Temporary shell until Phase 7 adds mode selection.
 export function App() {
+  const reducedMotion = usePrefersReducedMotion();
+
+  if (isCatalog()) {
+    return (
+      <ReducedMotionProvider value={reducedMotion}>
+        <Suspense fallback={null}>
+          <ComponentCatalog />
+        </Suspense>
+      </ReducedMotionProvider>
+    );
+  }
+
   return (
     <main className="mx-auto flex min-h-dvh max-w-read flex-col justify-center gap-6 p-6">
       <h1 className="pixel-text text-shadow-pixel font-display text-display-lg text-parchment-100 uppercase">

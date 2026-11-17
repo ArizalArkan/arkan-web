@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './tokens.css';
+@import './components.css';
 @import '@fontsource/press-start-2p/latin-400.css';
 @import '@fontsource-variable/pixelify-sans/wght.css';
 @import '@fontsource-variable/crimson-pro/wght.css';
@@ -28,12 +29,7 @@
     animation: focus-blink 1s steps(2, jump-none) infinite;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    :focus-visible {
-      animation: none;
-    }
-  }
-
+  /* The app sets data-reduced-motion from settings (OS default, overridable). */
   :root[data-reduced-motion='true'] :focus-visible {
     animation: none;
   }

@@ -193,6 +193,14 @@ export const copy = {
   noscript:
     'This portfolio needs JavaScript for the interactive town. The summary and contact details are below.',
   footer: 'Built with React, Three.js, GSAP and Tailwind CSS.',
+  a11y: {
+    newTab: '(opens in a new tab)',
+    loading: 'Loading',
+    dismiss: 'Dismiss',
+    characterCount: '{count} of {max} characters',
+    valueOf: '{label} {value} of {max}',
+    optional: '(optional)',
+  },
 } as const;
 
 export const fill = (template: string, values: Record<string, string | number>) =>

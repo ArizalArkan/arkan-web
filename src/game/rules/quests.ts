@@ -1,7 +1,7 @@
 // Quest status (PRODUCT.md §7.2). `locked` exists in the model but is never
 // used for portfolio content: nothing the visitor needs is ever locked.
 
-import { LOCATION_IDS, type LocationId } from '@/content/schema';
+import { LOCATION_IDS, type LocationId } from '@/content/ids';
 import type { Progress } from './progress';
 
 export type QuestStatus = 'locked' | 'available' | 'active' | 'completed';

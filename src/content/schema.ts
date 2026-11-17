@@ -1,34 +1,9 @@
 import { z } from 'zod';
+import { LOCATION_IDS, RARITIES, SKILL_SLOTS, WINDOW_IDS } from './ids';
 
-// ---------- ids ----------
-
-export const LOCATION_IDS = [
-  'guild-hall',
-  'quest-board',
-  'armory',
-  'library',
-  'post-office',
-] as const;
-export type LocationId = (typeof LOCATION_IDS)[number];
-
-export const WINDOW_IDS = [
-  'guild-hall',
-  'quest-board',
-  'quest-detail',
-  'armory',
-  'library',
-  'post-office',
-  'fast-travel',
-  'quest-log',
-  'settings',
-] as const;
-export type WindowId = (typeof WINDOW_IDS)[number];
-
-export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
-export type Rarity = (typeof RARITIES)[number];
-
-export const SKILL_SLOTS = ['frontend', 'backend', 'database', 'tools'] as const;
-export type SkillSlot = (typeof SKILL_SLOTS)[number];
+// Schemas run in tests (content validation, QA-CHECKLIST A11). Runtime code
+// imports types from here and id lists from ./ids, never the schemas.
+export * from './ids';
 
 export type SkillId = string;
 

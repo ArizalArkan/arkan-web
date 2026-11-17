@@ -1,5 +1,5 @@
 import { quests } from '@/content/quests';
-import { LOCATION_IDS, type LocationId } from '@/content/schema';
+import { LOCATION_IDS, type LocationId } from '@/content/ids';
 import { world } from '@/content/world';
 import { ACHIEVEMENTS, type AchievementId } from './achievements';
 import { levelFromXp, XP } from './xp';

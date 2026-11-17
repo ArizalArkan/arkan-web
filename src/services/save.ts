@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod/mini';
 
 // Versioned local save (PRODUCT.md §7.6, ARCHITECTURE.md §8).
 // Never throws: private mode, full quota or a corrupt value all fall back to
@@ -7,33 +7,36 @@ import { z } from 'zod';
 export const SAVE_KEY = 'arkan-journey:save:v1';
 export const SAVE_VERSION = 1;
 
-const ids = z.array(z.string()).catch([]);
+// zod/mini keeps the shell bundle small; each field falls back on bad data
+// instead of failing the whole save.
+const ids = z.catch(z.array(z.string()), []);
+const count = z.catch(z.number().check(z.minimum(0)), 0);
 
 export const settingsSchema = z.object({
-  mode: z.enum(['adventure', 'quick']).nullable().catch(null),
-  quality: z.enum(['auto', 'high', 'medium', 'low']).catch('auto'),
-  sound: z.boolean().catch(false),
+  mode: z.catch(z.nullable(z.enum(['adventure', 'quick'])), null),
+  quality: z.catch(z.enum(['auto', 'high', 'medium', 'low']), 'auto'),
+  sound: z.catch(z.boolean(), false),
   /** null = follow prefers-reduced-motion. */
-  reducedMotion: z.boolean().nullable().catch(null),
+  reducedMotion: z.catch(z.nullable(z.boolean()), null),
 });
 export type SavedSettings = z.infer<typeof settingsSchema>;
 
 export const saveSchema = z.object({
   version: z.literal(SAVE_VERSION),
   /** Bumped on reset so another open tab cannot merge old progress back in. */
-  epoch: z.number().int().nonnegative().catch(0),
+  epoch: z.catch(z.int().check(z.minimum(0)), 0),
   /** Informational; the game recomputes XP from the sets below. */
-  xp: z.number().nonnegative().catch(0),
+  xp: count,
   visited: ids,
   questsRead: ids,
   linksOpened: ids,
   npcsMet: ids,
   collectibles: ids,
   achievements: ids,
-  contactSent: z.boolean().catch(false),
-  settings: settingsSchema.catch({
+  contactSent: z.catch(z.boolean(), false),
+  settings: z.catch(settingsSchema, {
     mode: null,
-    quality: 'auto',
+    quality: 'auto' as const,
     sound: false,
     reducedMotion: null,
   }),

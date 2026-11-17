@@ -58,7 +58,11 @@ describe('remaining store actions', () => {
     expect(useUIStore.getState()).toMatchObject({ modal: null, banner: 'library' });
     ui.clearBanner();
     ui.openDialog('guide-intro');
-    expect(useUIStore.getState().dialog).toEqual({ dialogId: 'guide-intro', npcId: null });
+    expect(useUIStore.getState().dialog).toEqual({
+      dialogId: 'guide-intro',
+      npcId: null,
+      isRepeat: false,
+    });
     ui.closeDialog();
     expect(useUIStore.getState()).toMatchObject({ banner: null, dialog: null });
   });
@@ -82,6 +86,15 @@ describe('remaining store actions', () => {
     expect(usePlayerStore.getState().travel).toEqual({
       locationId: 'library',
       openOnArrival: false,
+      isCommitted: false,
+    });
+    player.commitTravel();
+    expect(usePlayerStore.getState().travel?.isCommitted).toBe(true);
+    player.requestInteract();
+    player.showBlockedTap(1, 2);
+    expect(usePlayerStore.getState()).toMatchObject({
+      interactNonce: 1,
+      blockedTap: { x: 1, z: 2, nonce: 1 },
     });
     player.finishTravel();
     expect(usePlayerStore.getState().travel).toBeNull();

@@ -23,7 +23,11 @@ type PlayerState = {
   inputDevice: InputDevice;
   cameraMode: CameraMode;
   /** Fast Travel request; the world consumes it and clears it. */
-  travel: { locationId: LocationId; openOnArrival: boolean } | null;
+  travel: { locationId: LocationId; openOnArrival: boolean; isCommitted: boolean } | null;
+  /** Bumped by UI (ActionButton) or keyboard; the world runs the active interactable. */
+  interactNonce: number;
+  /** Where an unreachable tap landed, for the brief "x" marker. */
+  blockedTap: { x: number; z: number; nonce: number } | null;
   isTransitioning: boolean;
   setMoveDir: (x: number, z: number) => void;
   setMoveTarget: (target: { x: number; z: number } | null, interactId?: string | null) => void;
@@ -32,7 +36,11 @@ type PlayerState = {
   setInputDevice: (device: InputDevice) => void;
   setCameraMode: (mode: CameraMode) => void;
   requestTravel: (locationId: LocationId, openOnArrival?: boolean) => boolean;
+  /** Called at the transition midpoint, when the screen is covered. */
+  commitTravel: () => void;
   finishTravel: () => void;
+  requestInteract: () => void;
+  showBlockedTap: (x: number, z: number) => void;
   setTransitioning: (value: boolean) => void;
 };
 
@@ -46,6 +54,8 @@ export const usePlayerStore = create<PlayerState>()((set, get) => ({
   cameraMode: 'follow',
   travel: null,
   isTransitioning: false,
+  interactNonce: 0,
+  blockedTap: null,
 
   setMoveDir(x, z) {
     const current = get().moveDir;
@@ -72,9 +82,21 @@ export const usePlayerStore = create<PlayerState>()((set, get) => ({
   // Ignored while a transition runs, so Fast Travel cannot fire twice (QA §5.4).
   requestTravel(locationId, openOnArrival = true) {
     if (get().isTransitioning) return false;
-    set({ travel: { locationId, openOnArrival }, moveTarget: null, pendingInteract: null });
+    set({
+      travel: { locationId, openOnArrival, isCommitted: false },
+      isTransitioning: true,
+      moveTarget: null,
+      pendingInteract: null,
+    });
     return true;
   },
+  commitTravel() {
+    const travel = get().travel;
+    if (travel && !travel.isCommitted) set({ travel: { ...travel, isCommitted: true } });
+  },
   finishTravel: () => set({ travel: null }),
+  requestInteract: () => set({ interactNonce: get().interactNonce + 1 }),
+  showBlockedTap: (x, z) =>
+    set({ blockedTap: { x, z, nonce: (get().blockedTap?.nonce ?? 0) + 1 } }),
   setTransitioning: (isTransitioning) => set({ isTransitioning }),
 }));

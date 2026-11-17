@@ -19,7 +19,7 @@ type UIState = {
   /** Open quest when the Quest Board shows a detail page. */
   questId: string | null;
   modal: ModalId | null;
-  dialog: { dialogId: string; npcId: string | null } | null;
+  dialog: { dialogId: string; npcId: string | null; isRepeat: boolean } | null;
   toasts: Toast[];
   /** Location name banner (shown on zone entry). */
   banner: LocationId | null;
@@ -29,7 +29,7 @@ type UIState = {
   closeWindow: () => void;
   openModal: (id: ModalId) => void;
   closeModal: () => void;
-  openDialog: (dialogId: string, npcId?: string) => void;
+  openDialog: (dialogId: string, npcId?: string, isRepeat?: boolean) => void;
   closeDialog: () => void;
   pushToast: (toast: Omit<Toast, 'id'>) => void;
   dismissToast: (id: number) => void;
@@ -54,7 +54,8 @@ export const useUIStore = create<UIState>()((set, get) => ({
   closeWindow: () => set({ window: null, questId: null, modal: null }),
   openModal: (id) => set({ modal: id }),
   closeModal: () => set({ modal: null }),
-  openDialog: (dialogId, npcId) => set({ dialog: { dialogId, npcId: npcId ?? null } }),
+  openDialog: (dialogId, npcId, isRepeat = false) =>
+    set({ dialog: { dialogId, npcId: npcId ?? null, isRepeat } }),
   closeDialog: () => set({ dialog: null }),
 
   pushToast(toast) {

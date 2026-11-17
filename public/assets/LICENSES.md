@@ -14,8 +14,8 @@ taken from a commercial game.
 
 | File(s) | What | Source | License / status |
 |---|---|---|---|
-| `sprites/characters.png` + `.json` | Hero (idle, walk, 4 directions) and Wren the guide (idle, 4 directions) | Drawn in code by `scripts/build-sprites.mjs` for this project | Original work, owned by the project. Placeholder quality: replace with hand-drawn sprites when available |
-| `sprites/world.png` + `.json` | Ground tiles, wall and roof materials, door, window, signs, trees, bush, lantern, signpost, quest board, fountain, gate post, markers | Same generator | Original work, owned by the project. Placeholder quality |
+| `sprites/characters.png` (metadata in `src/world/atlases/characters.json`) | Hero (idle, walk, 4 directions) and Wren the guide (idle, 4 directions) | Drawn in code by `scripts/build-sprites.mjs` for this project | Original work, owned by the project. Placeholder quality: replace with hand-drawn sprites when available |
+| `sprites/world.png` (metadata in `src/world/atlases/world.json`) | Ground tiles, wall and roof materials, door, window, signs, trees, bush, lantern, signpost, quest board, fountain, gate post, markers | Same generator | Original work, owned by the project. Placeholder quality |
 | `/favicon-16.png`, `/favicon-32.png`, `/apple-touch-icon.png`, `/icon-512.png` | Shield emblem with an "A" | Same generator | Original work, owned by the project |
 
 No sprite, tile, font or sound comes from a commercial game. Sound effects are

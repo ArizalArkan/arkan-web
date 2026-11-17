@@ -469,6 +469,12 @@ const marker = (kind) => {
     ]) {
       c.rect(x, y, x, y + 2, P.herb);
     }
+  } else if (kind === 'cross') {
+    // "can't walk there"
+    for (let i = 3; i <= 12; i += 1) {
+      c.rect(i, i, i + 1, i, P.terraLight);
+      c.rect(15 - i - 1, i, 15 - i, i, P.terraLight);
+    }
   } else {
     // talk: a small speech bubble
     c.rect(2, 3, 13, 10, P.parch);
@@ -562,6 +568,7 @@ export const buildWorldSprites = () => {
     { name: 'marker/exclaim', canvas: marker('exclaim') },
     { name: 'marker/check', canvas: marker('check') },
     { name: 'marker/talk', canvas: marker('talk') },
+    { name: 'marker/cross', canvas: marker('cross') },
   ];
 };
 

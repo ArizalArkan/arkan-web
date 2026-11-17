@@ -12,7 +12,10 @@ import { buildWorldSprites, emblem, worldAnimations } from './lib/world.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'public/assets/sprites');
+// Atlas metadata is imported by the world code, so it lives in src/.
+const metaDir = path.join(root, 'src/world/atlases');
 fs.mkdirSync(outDir, { recursive: true });
+fs.mkdirSync(metaDir, { recursive: true });
 
 const MAX_COLORS = 32;
 
@@ -55,7 +58,7 @@ const write = (name, { atlas, frames }, animations) => {
   if (colors > MAX_COLORS) throw new Error(`${name}: ${colors} colors, the limit is ${MAX_COLORS}`);
   fs.writeFileSync(path.join(outDir, `${name}.png`), encodePng(atlas));
   fs.writeFileSync(
-    path.join(outDir, `${name}.json`),
+    path.join(metaDir, `${name}.json`),
     `${JSON.stringify({ image: `/assets/sprites/${name}.png`, size: { w: atlas.w, h: atlas.h }, ppu: 32, frames, animations }, null, 2)}\n`,
   );
   console.log(

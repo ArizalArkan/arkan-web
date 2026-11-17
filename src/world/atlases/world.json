@@ -192,20 +192,26 @@
       "w": 16,
       "h": 16
     },
-    "marker/exclaim": {
+    "marker/cross": {
       "x": 292,
       "y": 166,
       "w": 16,
       "h": 16
     },
-    "marker/talk": {
+    "marker/exclaim": {
       "x": 310,
       "y": 166,
       "w": 16,
       "h": 16
     },
-    "prop/lantern-flame": {
+    "marker/talk": {
       "x": 328,
+      "y": 166,
+      "w": 16,
+      "h": 16
+    },
+    "prop/lantern-flame": {
+      "x": 346,
       "y": 166,
       "w": 16,
       "h": 16

@@ -49,6 +49,8 @@ export const copy = {
     maxLevel: 'MAX',
     xp: 'XP',
     xpExplainer: 'XP tracks how much of the town you have explored. It is not a rating of Arkan.',
+    switchToQuickRead: 'Switch to Quick Read',
+    status: 'Explorer status',
   },
   hints: {
     move: 'Move',
@@ -79,6 +81,9 @@ export const copy = {
     howToGetThere: 'Go there',
     done: 'Done',
     notYet: 'Not yet',
+    badges: 'Badges',
+    badgesEmptyTitle: 'No badges yet',
+    secretBadge: '???',
   },
   quests: {
     heading: 'Quests (Projects)',
@@ -151,6 +156,8 @@ export const copy = {
     emailLabelShort: 'Email',
     phoneLabelShort: 'Phone',
     cvMissing: 'The CV file has not been uploaded yet. You can print this page instead.',
+    mailSubject: 'Hello from your portfolio',
+    honeypotLabel: 'Leave this field empty',
   },
   settings: {
     title: 'Settings',
@@ -168,6 +175,10 @@ export const copy = {
     resetConfirm: 'Delete Progress',
     on: 'On',
     off: 'Off',
+    soundHint: 'Short chiptune blips. Off by default.',
+    reducedMotionHint: 'Turns off camera moves, sparkles and the typewriter.',
+    qualityHint: 'Lower it if the town feels slow.',
+    resetHint: 'Start the town over. Your settings stay.',
   },
   toasts: {
     xp: '+{amount} XP',
@@ -182,6 +193,8 @@ export const copy = {
     noWebgl:
       'This device can’t open the 3D town yet. You can still read everything here in Quick Read.',
     contextLost: 'The town vanished for a moment. Restoring it now.',
+    contextLostFailed:
+      'The town could not be restored. Reload the page, or read everything in Quick Read.',
     crashTitle: 'Something went wrong here.',
     crashBody: 'The rest of the town is fine. Close this window or reload the page.',
     imageFailed: 'Image failed to load',
@@ -201,6 +214,7 @@ export const copy = {
     characterCount: '{count} of {max} characters',
     valueOf: '{label} {value} of {max}',
     optional: '(optional)',
+    skipToContent: 'Skip to content',
   },
 } as const;
 

@@ -411,3 +411,23 @@ Prinsip: komposisi lewat `children`/slot lebih baik daripada menambah prop boole
 - [ ] Benar pada `--px` 3 dan 4, lebar 360 px s.d. 1920 px
 - [ ] Unit/component test + snapshot visual
 - [ ] Terdaftar di `COMPONENTS.md`
+
+---
+
+## 11. Additions during the refactor
+
+Components added while building, registered here per §1.1.
+
+| Component | Layer | Purpose |
+|---|---|---|
+| `Heading` | `ui/sections` | Heading whose level (`h1`–`h4`) comes from `headingLevel`, so each mode keeps one `h1` |
+| `ContactForm` | `ui/sections` | The letter form inside `ContactSection`: blur-then-live validation, `sessionStorage` draft, honeypot, rate-limit countdown, `mailto:` fallback |
+| `TextInput`, `TextArea` | `ui/patterns` | Split out of `FormField` (one component per file); share `inputClass` |
+| `LocationWindow` | `ui/screens` | One window per location; renders the same `sections` Quick Read uses |
+| `QuestLogWindow`, `SettingsWindow`, `TitleScreen`, `LoadingScreen` | `ui/screens` | As described in §5 |
+| `Hud`, `LocationBanner`, `ControlHints`, `DialogLayer` | `ui/hud` | As described in §5; `ControlHints` doubles as the touch `ActionButton` |
+| `ErrorBoundary`, `WindowLayer` | `app` | Per-window crash boundary and the single open window |
+| `Lantern`, `TileGround`, `BlobShadow`, `Interactable`, `Sprite`, `AnimatedSprite` | `world/primitives` | As in §6. `Interactable` reads `usePlayerStore` to know whether it is the active object (a documented exception to "primitives use no store") |
+| `Building`, `LocationSite`, `Scenery`, `BlockedTapMarker` | `world/entities` | Buildings, locations, props and the "can't walk there" marker |
+
+`MenuList` gained `autoFocus`; `ToastViewport` gained `placement` (`top` / `bottom`, bottom while a window is open).

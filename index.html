@@ -4,16 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0f0b1e" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Arizal Arkan · Software Engineer</title>
     <meta
       name="description"
-      content="Arizal Arkan, software engineer in Jakarta. Explore the portfolio as a small pixel town, or read it straight through in Quick Read."
+      content="Arizal Arkan, software engineer in Jakarta with 6+ years across banking, e-commerce, streaming, audit and telco. Explore the portfolio as a small pixel town, or read it in Quick Read."
     />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- TODO(owner): set the production domain, then add
+         <link rel="canonical" href="https://YOUR-DOMAIN/" /> and absolute og:url / og:image. -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Arizal Arkan · Software Engineer" />
+    <meta
+      property="og:description"
+      content="A portfolio you can walk around: a small pixel town at dusk, or one plain page in Quick Read."
+    />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Arizal Arkan",
+        "jobTitle": "Software Engineer",
+        "address": { "@type": "PostalAddress", "addressLocality": "Jakarta", "addressCountry": "ID" },
+        "email": "mailto:arizalarkan@gmail.com",
+        "sameAs": ["https://github.com/ArizalArkan", "https://www.linkedin.com/in/arizal-arkan-09/"]
+      }
+    </script>
+    <style>
+      /* Critical shell, painted before any JS: night background, name, role. */
+      html { background: #0f0b1e; color: #f4e8c8; font-family: Georgia, serif; }
+      body { margin: 0; }
+      #static-shell { max-width: 45rem; margin: 0 auto; padding: 3rem 1rem; line-height: 1.6; }
+      #static-shell h1 { font-size: 2rem; margin: 0 0 0.25rem; }
+      #static-shell .role { color: #f2c14e; margin: 0 0 1rem; }
+      #static-shell a { color: #f2c14e; }
+    </style>
   </head>
   <body>
+    <div id="static-shell">
+      <h1>Arizal Arkan</h1>
+      <p class="role">Software Engineer · Jakarta, Indonesia</p>
+      <noscript>
+        <p>
+          This portfolio needs JavaScript for the interactive town. The summary and contact
+          details are below.
+        </p>
+        <p>
+          Software engineer with 6+ years building products across banking, e-commerce,
+          streaming, audit and telco: Bank Saqu, AltaraOne, Ruparupa.com, Vision+, My IndiHome,
+          DataExchange and Palapa One. Frontend roots in React, Vue, Next.js and React Native,
+          with growing full-stack range in Node.js, Nest.js and Golang.
+        </p>
+        <p>
+          Email: <a href="mailto:arizalarkan@gmail.com">arizalarkan@gmail.com</a> ·
+          <a href="https://github.com/ArizalArkan">GitHub</a> ·
+          <a href="https://www.linkedin.com/in/arizal-arkan-09/">LinkedIn</a>
+        </p>
+      </noscript>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/app/main.tsx"></script>
   </body>

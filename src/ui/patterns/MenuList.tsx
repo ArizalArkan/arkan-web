@@ -1,4 +1,4 @@
-import { useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { audio } from '@/services/audio';
 import { Icon } from '../primitives/Icon';
@@ -23,6 +23,8 @@ type MenuListProps = {
   columns?: number;
   /** Accessible name of the list. */
   label: string;
+  /** Focus the active item on mount (menus opened from a shortcut). */
+  autoFocus?: boolean;
   className?: string;
 };
 
@@ -35,11 +37,21 @@ export function MenuList({
   orientation = 'vertical',
   columns = 2,
   label,
+  autoFocus = false,
   className,
 }: MenuListProps) {
   const refs = useRef(new Map<string, HTMLButtonElement>());
   const enabled = items.filter((item) => !item.disabled);
   const activeId = value ?? enabled[0]?.id ?? null;
+
+  // A frame later, so it wins over a parent window focusing its own title.
+  useEffect(() => {
+    if (!autoFocus || !activeId) return undefined;
+    const frame = window.requestAnimationFrame(() => refs.current.get(activeId)?.focus());
+    return () => window.cancelAnimationFrame(frame);
+    // Only on mount: later focus follows the keyboard.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const move = (id: string | undefined) => {
     if (!id) return;

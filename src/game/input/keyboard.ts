@@ -69,6 +69,8 @@ export const createKeyboardInput = ({
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
+    // A dialog or window already handled this key (e.g. Esc closing it).
+    if (event.defaultPrevented) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     if (isTypingTarget(event.target)) return;
     if (!isEnabled()) return;

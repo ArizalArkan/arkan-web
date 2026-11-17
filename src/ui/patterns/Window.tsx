@@ -81,7 +81,7 @@ export function Window({
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-30 flex items-end justify-center md:items-center md:p-8"
+      className="pointer-events-none fixed inset-0 z-30 flex items-end justify-center bg-night-900/45 md:items-center md:p-8"
       data-testid={`window-${id}`}
     >
       <div

@@ -36,15 +36,25 @@ const MAX_VISIBLE = 2;
 type ToastViewportProps = {
   toasts: ToastData[];
   onDismiss: (id: number) => void;
+  /** Bottom while a window is open, so a toast never covers its header. */
+  placement?: 'top' | 'bottom';
   className?: string;
 };
 
 /** FIFO toast stack, two visible at most (COMPONENTS.md §3.6). */
-export function ToastViewport({ toasts, onDismiss, className }: ToastViewportProps) {
+export function ToastViewport({
+  toasts,
+  onDismiss,
+  placement = 'top',
+  className,
+}: ToastViewportProps) {
   return (
     <div
       className={cn(
-        'pointer-events-none fixed inset-x-0 top-0 z-40 flex flex-col items-center gap-2 p-2 pt-[max(calc(var(--px)*2),env(safe-area-inset-top))] md:p-4',
+        'pointer-events-none fixed inset-x-0 z-40 flex flex-col items-center gap-2 p-2 md:p-4',
+        placement === 'top'
+          ? 'top-0 pt-[max(calc(var(--px)*2),env(safe-area-inset-top))]'
+          : 'bottom-0 pb-[max(calc(var(--px)*2),env(safe-area-inset-bottom))]',
         className,
       )}
     >

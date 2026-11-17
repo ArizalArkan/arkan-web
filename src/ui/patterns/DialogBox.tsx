@@ -98,6 +98,7 @@ export function DialogBox({
     if (event.repeat) return;
     if (event.key === 'Escape' && dismissible) {
       event.preventDefault();
+      event.stopPropagation();
       if (phase === 'choosing' && choices.length > 0) {
         // Cancel = the last choice, which is always the exit (UX §9.1).
         onChoose?.(choices[choices.length - 1]!.id);

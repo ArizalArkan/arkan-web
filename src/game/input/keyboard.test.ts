@@ -110,3 +110,15 @@ describe('keyboard input', () => {
     expect(actions).toEqual([]);
   });
 });
+
+describe('keyboard input and handled keys', () => {
+  it('ignores a key another component already handled', () => {
+    const actions: InputAction[] = [];
+    const input = createKeyboardInput({ isEnabled: () => true, onAction: (a) => actions.push(a) });
+    const event = new KeyboardEvent('keydown', { code: 'Escape', cancelable: true });
+    event.preventDefault();
+    window.dispatchEvent(event);
+    expect(actions).toEqual([]);
+    input.dispose();
+  });
+});

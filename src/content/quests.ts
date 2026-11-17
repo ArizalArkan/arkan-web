@@ -130,9 +130,7 @@ export const quests: Quest[] = [
     outcome: null,
     stack: ['react'],
     tags: ['Dolby Atmos', 'Midtrans', 'Analytics'],
-    links: [
-      { kind: 'demo', label: 'Visit Vision+', href: 'https://www.visionplus.id/webclient/' },
-    ],
+    links: [{ kind: 'demo', label: 'Visit Vision+', href: 'https://www.visionplus.id/webclient/' }],
     media: [
       {
         src: '/assets/vision+.webp',

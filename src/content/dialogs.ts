@@ -11,7 +11,9 @@ export const dialogs: Dialog[] = [
       'Each building holds a chapter: his story, his quests (projects), his skills, his work history, and a post office.',
       'Walk with WASD or tap the ground. Short on time? Press M for Fast Travel.',
     ],
-    repeatLines: ['Good to see you again. Press M for Fast Travel, or Q to see what you haven’t visited.'],
+    repeatLines: [
+      'Good to see you again. Press M for Fast Travel, or Q to see what you haven’t visited.',
+    ],
   },
   {
     id: 'guide-returning',

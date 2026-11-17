@@ -139,7 +139,8 @@ export const copy = {
       messageLong: 'This message is too long. The limit is 2000 characters.',
       summary: 'Some fields need another look.',
     },
-    network: 'The letter could not be sent because of the connection. Your message is still safe here.',
+    network:
+      'The letter could not be sent because of the connection. Your message is still safe here.',
     server: 'The post office is having trouble. Try again in a moment, or send it by email.',
     noEndpoint: 'The letter form is not connected yet. Please send your message by email.',
     rateLimit: 'Wait {seconds} seconds before sending again.',

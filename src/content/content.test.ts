@@ -61,13 +61,15 @@ describe('content cross-references', () => {
 
   it('every quest stack entry is a known skill', () => {
     for (const quest of quests) {
-      for (const skillId of quest.stack) expect(skillIds, `${quest.id} -> ${skillId}`).toContain(skillId);
+      for (const skillId of quest.stack)
+        expect(skillIds, `${quest.id} -> ${skillId}`).toContain(skillId);
     }
   });
 
   it('every skill proof and experience link points at a real quest', () => {
     for (const skill of skills) {
-      for (const questId of skill.provenBy) expect(questIds, `${skill.id} -> ${questId}`).toContain(questId);
+      for (const questId of skill.provenBy)
+        expect(questIds, `${skill.id} -> ${questId}`).toContain(questId);
     }
     for (const entry of experience) {
       if (entry.questId) expect(questIds).toContain(entry.questId);
@@ -97,7 +99,10 @@ describe('content cross-references', () => {
 
 describe('content assets and copy rules', () => {
   it('every referenced image exists in public/', () => {
-    const sources = [profile.portrait.src, ...quests.flatMap((quest) => quest.media.map((m) => m.src))];
+    const sources = [
+      profile.portrait.src,
+      ...quests.flatMap((quest) => quest.media.map((m) => m.src)),
+    ];
     for (const src of sources) expect(existsSync(publicPath(src)), src).toBe(true);
   });
 

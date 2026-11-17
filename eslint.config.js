@@ -37,7 +37,7 @@ const layerRules = [
 
 export default tseslint.config(
   {
-    ignores: ['dist', 'coverage', 'playwright-report', 'test-results', 'node_modules', 'src/constants'],
+    ignores: ['dist', 'coverage', 'playwright-report', 'test-results', 'node_modules'],
   },
   {
     files: ['**/*.{ts,tsx,js}'],

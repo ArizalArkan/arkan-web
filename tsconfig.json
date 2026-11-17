@@ -15,8 +15,6 @@
     "skipLibCheck": true,
     "noEmit": true,
     "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": false,
     "types": ["vite/client", "node"],
     "paths": { "@/*": ["./src/*"] }
   },

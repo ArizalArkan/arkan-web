@@ -16,6 +16,7 @@ type SettingsState = {
   /** Tier the renderer uses; follows `quality` unless it is `auto`. */
   autoTier: Tier;
   sound: boolean;
+  music: boolean;
   /** null = follow the OS `prefers-reduced-motion`. */
   reducedMotionOverride: boolean | null;
   systemReducedMotion: boolean;
@@ -24,6 +25,7 @@ type SettingsState = {
   lowerAutoTier: () => boolean;
   raiseAutoTier: () => boolean;
   setSound: (sound: boolean) => void;
+  setMusic: (music: boolean) => void;
   setReducedMotion: (value: boolean | null) => void;
   setSystemReducedMotion: (value: boolean) => void;
 };
@@ -36,6 +38,7 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
   quality: saved.quality,
   autoTier: 'high',
   sound: saved.sound,
+  music: saved.music,
   reducedMotionOverride: saved.reducedMotion,
   systemReducedMotion: false,
 
@@ -54,6 +57,7 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
     return true;
   },
   setSound: (sound) => set({ sound }),
+  setMusic: (music) => set({ music }),
   setReducedMotion: (value) => set({ reducedMotionOverride: value }),
   setSystemReducedMotion: (value) => set({ systemReducedMotion: value }),
 }));

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { copy } from '@/content/copy';
+import { setMusicEnabled } from '@/game/musicControl';
 import { useGameStore } from '@/game/stores/useGameStore';
 import {
   selectReducedMotion,
@@ -24,6 +25,7 @@ const QUALITY: { id: Quality; label: string }[] = [
 /** Every preference applies immediately and is saved (UX-GUIDELINES.md §9.6). */
 export function SettingsWindow() {
   const sound = useSettingsStore((state) => state.sound);
+  const music = useSettingsStore((state) => state.music);
   const quality = useSettingsStore((state) => state.quality);
   const settings = useSettingsStore.getState();
   const reducedMotion = useSettingsStore(selectReducedMotion);
@@ -46,6 +48,14 @@ export function SettingsWindow() {
       <div className="flex flex-col gap-6">
         <Row label={copy.settings.sound} hint={copy.settings.soundHint}>
           <Switch checked={sound} onChange={toggleSound} label={copy.settings.sound} />
+        </Row>
+
+        <Row label={copy.settings.music} hint={copy.settings.musicHint}>
+          <Switch
+            checked={music}
+            onChange={() => setMusicEnabled(!music)}
+            label={copy.settings.music}
+          />
         </Row>
 
         <Row label={copy.settings.reducedMotion} hint={copy.settings.reducedMotionHint}>

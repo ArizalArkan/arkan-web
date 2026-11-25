@@ -360,3 +360,435 @@
     transform: rotate(360deg);
   }
 }
+
+/*
+ * Quick Read header diorama (DESIGN.md §8.5). Pixel layers scale by an
+ * integer (--scene: 2 on phones, 3 from 768 px) so texels stay square.
+ */
+@layer components {
+  .qr-scene {
+    --scene: 2;
+    position: relative;
+    height: calc(120px * var(--scene));
+    overflow: hidden;
+    /* Hard-stop bands, not a smooth gradient: the sky is pixel layer too. */
+    background: linear-gradient(
+      to bottom,
+      transparent 0 18%,
+      var(--color-night-800) 18% 38%,
+      var(--color-night-700) 38% 58%,
+      var(--color-dusk-500) 58% 100%
+    );
+  }
+  @media (min-width: 48rem) {
+    .qr-scene {
+      --scene: 3;
+    }
+    .qr-star {
+      display: block;
+    }
+  }
+  .qr-layer {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: calc(96px * var(--scene));
+    background-repeat: repeat-x;
+    background-position: center bottom;
+    background-size: auto 100%;
+    image-rendering: pixelated;
+    will-change: transform;
+  }
+  .qr-layer-near {
+    background-repeat: no-repeat;
+  }
+  .qr-sprite {
+    position: absolute;
+    bottom: calc(4px * var(--scene));
+    width: calc(32px * var(--scene));
+    height: calc(48px * var(--scene));
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    image-rendering: pixelated;
+    animation: qr-frames 1s steps(2, jump-none) infinite;
+  }
+  .qr-sprite[data-state='walking'] {
+    animation: qr-walk 0.5s steps(4, jump-none) infinite;
+  }
+  .qr-moon {
+    position: absolute;
+    width: calc(24px * var(--scene));
+    height: calc(24px * var(--scene));
+    image-rendering: pixelated;
+    filter: drop-shadow(
+      0 0 calc(6px * var(--scene)) color-mix(in srgb, var(--color-parchment-100) 45%, transparent)
+    );
+  }
+  /* Stars sit in the side columns, which only exist on wider screens. */
+  .qr-star {
+    display: none;
+    position: absolute;
+    width: var(--px);
+    height: var(--px);
+    background: var(--color-parchment-100);
+    animation: qr-twinkle 2.4s steps(2, jump-none) infinite;
+  }
+  /* Warm pool of light around each lamp: HD layer, so it is soft. */
+  .qr-glow {
+    position: absolute;
+    width: calc(40px * var(--scene));
+    height: calc(40px * var(--scene));
+    translate: -50% -50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-gold-400) 45%, transparent) 0%,
+      color-mix(in srgb, var(--color-ember-500) 18%, transparent) 40%,
+      transparent 70%
+    );
+    animation: qr-flicker 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .qr-progress {
+    transform-origin: left center;
+  }
+
+  :root[data-reduced-motion='true'] .qr-sprite,
+  :root[data-reduced-motion='true'] .qr-star,
+  :root[data-reduced-motion='true'] .qr-glow {
+    animation: none;
+  }
+
+  /* Animation start states are set by JS; print always shows everything. */
+  @media print {
+    .qr-scene {
+      display: none;
+    }
+    [data-qr] {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+    }
+  }
+}
+
+/* With jump-none steps, 0% and 100% are the first and last frame of a strip. */
+@keyframes qr-frames {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes qr-walk {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes qr-twinkle {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes qr-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/*
+ * HD-2D atmosphere for Quick Read (DESIGN.md §8.5): soft light, fog, depth
+ * blur and particles over crisp pixel layers. Only the HD layer is ever
+ * blurred or eased; pixel art stays sharp and integer-scaled.
+ */
+@layer components {
+  /* Depth of field: the further the layer, the softer it gets. */
+  .qr-dof-far {
+    filter: blur(2px) brightness(0.85);
+  }
+  .qr-dof-mid {
+    filter: blur(1px) brightness(0.92);
+  }
+
+  .qr-rays {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: repeating-conic-gradient(
+      from 190deg at var(--rays-x, 80%) -10%,
+      color-mix(in srgb, var(--color-parchment-100) 9%, transparent) 0deg 3deg,
+      transparent 3deg 11deg
+    );
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    animation: qr-rays 9s ease-in-out infinite;
+  }
+
+  .qr-fog {
+    position: absolute;
+    inset-inline: -10%;
+    height: 40%;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-dusk-300) 22%, transparent) 45%,
+      transparent
+    );
+    filter: blur(8px);
+    animation: qr-drift 18s ease-in-out infinite alternate;
+  }
+
+  .qr-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at 50% 45%,
+      transparent 55%,
+      color-mix(in srgb, var(--color-night-900) 70%, transparent) 100%
+    );
+  }
+
+  .qr-firefly {
+    position: absolute;
+    width: calc(var(--px) * 1.5);
+    height: calc(var(--px) * 1.5);
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      var(--color-parchment-100) 0 30%,
+      color-mix(in srgb, var(--color-gold-400) 60%, transparent) 45%,
+      transparent 70%
+    );
+    animation: qr-float var(--float-s, 7s) ease-in-out var(--float-delay, 0s) infinite alternate;
+  }
+
+  /* Cinematic dialog band, in the spirit of modern HD-2D cut-scenes. */
+  .qr-dialog {
+    position: relative;
+    padding: calc(var(--px) * 4) calc(var(--px) * 8);
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--color-night-800) 94%, transparent) 10%,
+      color-mix(in srgb, var(--color-night-800) 94%, transparent) 90%,
+      transparent
+    );
+  }
+  .qr-dialog-name::after {
+    content: '';
+    display: block;
+    height: 1px;
+    margin-top: calc(var(--px) * 1.5);
+    width: min(100%, 28rem);
+    background: linear-gradient(to right, var(--color-parchment-300), transparent);
+  }
+
+  /* Status window: the same translucent glass, framed as a party menu. */
+  .qr-status {
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--color-night-700) 90%, transparent),
+      color-mix(in srgb, var(--color-night-800) 96%, transparent)
+    );
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--color-parchment-300) 55%, transparent),
+      inset 0 0 0 calc(var(--px) + 1px) color-mix(in srgb, var(--color-night-900) 60%, transparent);
+  }
+
+  /* Chapter establishing shot. 360 x 112 texels at 1x on phones, 2x above. */
+  .qr-banner {
+    --scene: 1;
+    position: relative;
+    height: calc(112px * var(--scene));
+    overflow: hidden;
+    background: linear-gradient(
+      to bottom,
+      var(--color-night-800) 0 36%,
+      var(--color-night-700) 36% 100%
+    );
+  }
+  @media (min-width: 30rem) {
+    .qr-banner {
+      --scene: 2;
+    }
+  }
+  .qr-banner > .qr-layer {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+  }
+
+  /* Chapter card trims. */
+  .qr-card > .pf-fill {
+    background-image: url('/assets/scene/paper.png');
+    background-size: calc(var(--px) * 16);
+    image-rendering: pixelated;
+  }
+  .qr-corner {
+    position: absolute;
+    width: calc(var(--px) * 6);
+    height: calc(var(--px) * 6);
+    background: url('/assets/scene/card-corner.png') no-repeat center / 100% 100%;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+  .qr-ribbon {
+    position: absolute;
+    top: calc(var(--px) * -1);
+    right: calc(var(--px) * 8);
+    width: calc(var(--px) * 7);
+    height: calc(var(--px) * 16);
+    background: var(--color-ember-500);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    box-shadow: inset calc(var(--px) * -1) 0 0
+      color-mix(in srgb, var(--color-ink-900) 25%, transparent);
+  }
+  .qr-title-line {
+    height: var(--px);
+    flex: 1;
+    background: linear-gradient(to var(--line-to, right), transparent, var(--color-parchment-300));
+  }
+
+  /* A light sweep across a project screenshot after it wipes in. */
+  #quests figure::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      color-mix(in srgb, var(--color-parchment-100) 45%, transparent) 50%,
+      transparent 65%
+    );
+    transform: translateX(-110%);
+  }
+  #quests figure.is-shined::after {
+    animation: qr-shine 0.9s ease-out forwards;
+  }
+
+  :root[data-reduced-motion='true'] .qr-rays,
+  :root[data-reduced-motion='true'] .qr-fog,
+  :root[data-reduced-motion='true'] .qr-firefly {
+    animation: none;
+  }
+  :root[data-reduced-motion='true'] .qr-firefly {
+    display: none;
+  }
+
+  @media print {
+    .qr-banner,
+    .qr-dialog,
+    .qr-corner,
+    .qr-ribbon {
+      display: none;
+    }
+  }
+}
+
+@keyframes qr-rays {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes qr-drift {
+  from {
+    transform: translateX(-4%);
+  }
+  to {
+    transform: translateX(4%);
+  }
+}
+
+@keyframes qr-float {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--float-x, 18px), var(--float-y, -26px));
+    opacity: 0.4;
+  }
+}
+
+@keyframes qr-shine {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+@layer components {
+  @media print {
+    /* The quest carousel prints every quest, not just the open one. */
+    [data-carousel] [hidden] {
+      display: block !important;
+    }
+    [data-carousel] [role='tablist'] {
+      display: none;
+    }
+  }
+}
+
+@layer components {
+  /* Hover light on a chapter card: under the text, never over it. */
+  .qr-glare {
+    --gx: 50;
+    --gy: 20;
+    position: absolute;
+    inset: var(--px);
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at calc(var(--gx) * 1%) calc(var(--gy) * 1%),
+      color-mix(in srgb, var(--color-gold-400) 22%, transparent) 0%,
+      color-mix(in srgb, var(--color-ember-500) 8%, transparent) 18%,
+      transparent 40%
+    );
+  }
+  .qr-band-shine {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in srgb, var(--color-parchment-100) 14%, transparent) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+  }
+}
+
+@layer components {
+  /* Fade the board's right edge so a row that scrolls looks like it does. */
+  .qr-board {
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - var(--px) * 12), transparent);
+    mask-image: linear-gradient(to right, black calc(100% - var(--px) * 12), transparent);
+    scrollbar-width: thin;
+  }
+}

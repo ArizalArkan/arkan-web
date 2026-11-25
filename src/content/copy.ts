@@ -3,6 +3,26 @@
 // Themed words always sit next to their literal meaning on first use.
 
 export const copy = {
+  quickRead: {
+    chapter: 'Chapter',
+    musicOn: 'Play music',
+    musicOff: 'Stop music',
+    readingProgress: 'Reading progress',
+    statusTitle: 'Status',
+    questLabel: 'Quest',
+    boardLabel: 'Pinned quests',
+    previousQuest: 'Previous quest',
+    nextQuest: 'Next quest',
+    questCount: 'Quest {current} of {total}',
+    boardHint: 'Pick a note, or use the arrows.',
+    musicPrompt: 'Play the town theme',
+    guideName: 'Wren',
+    // Wren's welcome in the Quick Read header. Pages type out one after another.
+    guideLines: [
+      'Welcome to Arkan Journey. This is the story of Arizal Arkan, told in five chapters.',
+      'Short on time? Send a letter now. Want the whole tale? Scroll on, traveller.',
+    ],
+  },
   modes: {
     adventure: 'Adventure Mode',
     quickRead: 'Quick Read',
@@ -176,6 +196,8 @@ export const copy = {
     on: 'On',
     off: 'Off',
     soundHint: 'Short chiptune blips. Off by default.',
+    music: 'Music',
+    musicHint: 'An original chiptune loop. Off by default.',
     reducedMotionHint: 'Turns off camera moves, sparkles and the typewriter.',
     qualityHint: 'Lower it if the town feels slow.',
     resetHint: 'Start the town over. Your settings stay.',

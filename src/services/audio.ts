@@ -2,6 +2,8 @@
 // so nothing to license or download. Muted by default, created lazily after
 // the first user gesture, and silent if anything fails.
 
+import { getAudioContext, peekAudioContext } from './audioContext';
+
 export type SfxId = 'cursor' | 'confirm' | 'cancel' | 'step' | 'reward' | 'error';
 
 type Note = { freq: number; at: number; dur: number; type?: OscillatorType };
@@ -31,27 +33,18 @@ const CUES: Record<SfxId, Note[]> = {
 
 const VOLUME = 0.4 * 0.25; // 40% default (DESIGN.md §10), scaled down for square waves.
 
-let context: AudioContext | null = null;
 let isEnabled = false;
-
-const getContext = () => {
-  if (context) return context;
-  const Ctor = typeof window === 'undefined' ? undefined : window.AudioContext;
-  if (!Ctor) return null;
-  context = new Ctor();
-  return context;
-};
 
 export const audio = {
   setEnabled(next: boolean) {
+    // Only gates effects; the shared context may still be playing music.
     isEnabled = next;
-    if (!next) void context?.suspend().catch(() => undefined);
   },
 
   /** Call from a user gesture handler (click/keydown) before the first play. */
   unlock() {
     try {
-      void getContext()
+      void getAudioContext()
         ?.resume()
         .catch(() => undefined);
     } catch {
@@ -62,7 +55,7 @@ export const audio = {
   play(id: SfxId) {
     if (!isEnabled) return;
     try {
-      const ctx = getContext();
+      const ctx = getAudioContext();
       if (!ctx) return;
       if (ctx.state === 'suspended') void ctx.resume().catch(() => undefined);
       const start = ctx.currentTime;
@@ -84,9 +77,13 @@ export const audio = {
 
   /** Stop sound while the tab is hidden (UX-GUIDELINES.md §9.5). */
   pause() {
-    void context?.suspend().catch(() => undefined);
+    void peekAudioContext()
+      ?.suspend()
+      .catch(() => undefined);
   },
   resume() {
-    if (isEnabled) void context?.resume().catch(() => undefined);
+    void peekAudioContext()
+      ?.resume()
+      .catch(() => undefined);
   },
 };

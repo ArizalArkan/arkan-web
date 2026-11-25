@@ -16,6 +16,8 @@ export const settingsSchema = z.object({
   mode: z.catch(z.nullable(z.enum(['adventure', 'quick'])), null),
   quality: z.catch(z.enum(['auto', 'high', 'medium', 'low']), 'auto'),
   sound: z.catch(z.boolean(), false),
+  /** Background music; separate from sound effects. */
+  music: z.catch(z.boolean(), false),
   /** null = follow prefers-reduced-motion. */
   reducedMotion: z.catch(z.nullable(z.boolean()), null),
 });
@@ -38,6 +40,7 @@ export const saveSchema = z.object({
     mode: null,
     quality: 'auto' as const,
     sound: false,
+    music: false,
     reducedMotion: null,
   }),
 });
@@ -54,7 +57,7 @@ export const defaultSave = (): SaveData => ({
   collectibles: [],
   achievements: [],
   contactSent: false,
-  settings: { mode: null, quality: 'auto', sound: false, reducedMotion: null },
+  settings: { mode: null, quality: 'auto', sound: false, music: false, reducedMotion: null },
 });
 
 type Migration = (data: Record<string, unknown>) => Record<string, unknown>;

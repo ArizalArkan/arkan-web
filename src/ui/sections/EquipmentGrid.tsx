@@ -57,7 +57,7 @@ export function EquipmentGrid({
             key={skill.id}
             className="flex flex-col gap-1.5 py-3 sm:flex-row sm:items-start sm:gap-4"
           >
-            <div className="flex min-w-48 items-center gap-3">
+            <div className="flex items-center gap-3 sm:w-64 sm:shrink-0">
               <span className="font-ui text-ui-md font-semibold">{skill.name}</span>
               <RarityBadge rarity={skill.rarity} />
             </div>

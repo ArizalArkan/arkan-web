@@ -8,6 +8,7 @@ import { saveService } from '@/services/save';
 import { SceneTransition } from '@/ui/patterns/SceneTransition';
 import { TitleScreen } from '@/ui/screens/TitleScreen';
 import { hasWebgl, loadAdventure } from './boot';
+import { useMusicLifecycle } from './useMusicLifecycle';
 
 const AdventureApp = lazy(() => import('./AdventureApp'));
 const QuickReadApp = lazy(() => import('./QuickReadApp'));
@@ -30,6 +31,8 @@ export function App() {
   const [attempt, setAttempt] = useState(0);
   const [isStarting, setIsStarting] = useState(false);
   const canAdventure = hasWebgl();
+
+  useMusicLifecycle();
 
   // OS preference feeds the setting; a manual override still wins.
   useEffect(() => {

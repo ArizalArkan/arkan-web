@@ -360,3 +360,151 @@
     transform: rotate(360deg);
   }
 }
+
+/*
+ * Quick Read header diorama (DESIGN.md §8.5). Pixel layers scale by an
+ * integer (--scene: 2 on phones, 3 from 768 px) so texels stay square.
+ */
+@layer components {
+  .qr-scene {
+    --scene: 2;
+    position: relative;
+    height: calc(120px * var(--scene));
+    overflow: hidden;
+    /* Hard-stop bands, not a smooth gradient: the sky is pixel layer too. */
+    background: linear-gradient(
+      to bottom,
+      transparent 0 18%,
+      var(--color-night-800) 18% 38%,
+      var(--color-night-700) 38% 58%,
+      var(--color-dusk-500) 58% 100%
+    );
+  }
+  @media (min-width: 48rem) {
+    .qr-scene {
+      --scene: 3;
+    }
+    .qr-star {
+      display: block;
+    }
+  }
+  .qr-layer {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: calc(96px * var(--scene));
+    background-repeat: repeat-x;
+    background-position: center bottom;
+    background-size: auto 100%;
+    image-rendering: pixelated;
+    will-change: transform;
+  }
+  .qr-layer-near {
+    background-repeat: no-repeat;
+  }
+  .qr-sprite {
+    position: absolute;
+    bottom: calc(4px * var(--scene));
+    width: calc(32px * var(--scene));
+    height: calc(48px * var(--scene));
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    image-rendering: pixelated;
+    animation: qr-frames 1s steps(2, jump-none) infinite;
+  }
+  .qr-sprite[data-state='walking'] {
+    animation: qr-walk 0.5s steps(4, jump-none) infinite;
+  }
+  .qr-moon {
+    position: absolute;
+    width: calc(24px * var(--scene));
+    height: calc(24px * var(--scene));
+    image-rendering: pixelated;
+    filter: drop-shadow(
+      0 0 calc(6px * var(--scene)) color-mix(in srgb, var(--color-parchment-100) 45%, transparent)
+    );
+  }
+  /* Stars sit in the side columns, which only exist on wider screens. */
+  .qr-star {
+    display: none;
+    position: absolute;
+    width: var(--px);
+    height: var(--px);
+    background: var(--color-parchment-100);
+    animation: qr-twinkle 2.4s steps(2, jump-none) infinite;
+  }
+  /* Warm pool of light around each lamp: HD layer, so it is soft. */
+  .qr-glow {
+    position: absolute;
+    width: calc(40px * var(--scene));
+    height: calc(40px * var(--scene));
+    translate: -50% -50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-gold-400) 45%, transparent) 0%,
+      color-mix(in srgb, var(--color-ember-500) 18%, transparent) 40%,
+      transparent 70%
+    );
+    animation: qr-flicker 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .qr-progress {
+    transform-origin: left center;
+  }
+
+  :root[data-reduced-motion='true'] .qr-sprite,
+  :root[data-reduced-motion='true'] .qr-star,
+  :root[data-reduced-motion='true'] .qr-glow {
+    animation: none;
+  }
+
+  /* Animation start states are set by JS; print always shows everything. */
+  @media print {
+    .qr-scene {
+      display: none;
+    }
+    [data-qr] {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+    }
+  }
+}
+
+/* With jump-none steps, 0% and 100% are the first and last frame of a strip. */
+@keyframes qr-frames {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes qr-walk {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes qr-twinkle {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes qr-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}

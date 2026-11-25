@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildCharacter, characterAnimations } from './lib/characters.mjs';
 import { Canvas, encodePng, hex, packAtlas } from './lib/pixel.mjs';
+import { buildScene } from './lib/scene.mjs';
 import { buildWorldSprites, emblem, worldAnimations } from './lib/world.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -66,16 +67,33 @@ const write = (name, { atlas, frames }, animations) => {
   );
 };
 
-write(
-  'characters',
-  packAtlas(
-    [...buildCharacter('hero', heroLook), ...buildCharacter('wren', wrenLook, ['idle'])],
-    256,
-  ),
-  { ...characterAnimations('hero'), ...characterAnimations('wren', ['idle']) },
-);
+const characterSprites = [
+  ...buildCharacter('hero', heroLook),
+  ...buildCharacter('wren', wrenLook, ['idle']),
+];
+const worldSprites = buildWorldSprites();
 
-write('world', packAtlas(buildWorldSprites(), 512), worldAnimations);
+write('characters', packAtlas(characterSprites, 256), {
+  ...characterAnimations('hero'),
+  ...characterAnimations('wren', ['idle']),
+});
+
+write('world', packAtlas(worldSprites, 512), worldAnimations);
+
+// Quick Read header layers (DESIGN.md §8.5).
+const byName = (list) => (name) => {
+  const found = list.find((entry) => entry.name === name);
+  if (!found) throw new Error(`Missing sprite ${name}`);
+  return found.canvas;
+};
+const sceneDir = path.join(root, 'public/assets/scene');
+fs.mkdirSync(sceneDir, { recursive: true });
+for (const [name, canvas] of Object.entries(
+  buildScene(byName(worldSprites), byName(characterSprites)),
+)) {
+  fs.writeFileSync(path.join(sceneDir, `${name}.png`), encodePng(canvas));
+}
+console.log('scene layers for Quick Read');
 
 // Favicon and app icons from the 16x16 emblem, integer scales only.
 const mark = emblem();

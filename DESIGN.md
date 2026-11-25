@@ -315,6 +315,24 @@ z  0  Background       → gradien night-900 (terlihat sebelum canvas siap)
 
 Versi HTML biasa dari seluruh konten, tetap memakai token yang sama: satu kolom maks. 720 px, window `parchment` untuk tiap section, ilustrasi pixel statis sebagai header. Tanpa canvas.
 
+### 8.5 Quick Read: presentasi & gerak (revisi 2026-11-25)
+
+Quick Read tetap jalur tercepat untuk P1 (recruiter), tetapi **tidak boleh terasa seperti dokumen biasa**. Ia adalah "title sequence" JRPG yang bisa dibaca: tiap section dibuka seperti window menu, halaman punya pemandangan kota sendiri, dan ada musik chiptune opsional. Dial: ENERGY 3 / RHYTHM 3 / MOTION 3.
+
+| Elemen | Ketentuan |
+|---|---|
+| Header | **Diorama 2D berlapis** (bukan foto, bukan gradien halus): langit pita bertingkat dari token (`night-900` → `night-700` → `dusk-500`), bintang berkedip `steps(2)`, bulan, siluet bukit, siluet atap dengan jendela menyala, lalu tanah dengan prop dari atlas dunia (pohon, lentera, Quest Board, air mancur). Hero berjalan masuk dari kiri (sprite strip, `steps()`), Wren menunggu di sisi kanan. Tinggi tetap (tanpa CLS), skala integer (3× desktop, 2× mobile) |
+| Intro header | Satu timeline GSAP ≤ 2,4 dtk: bulan naik → lapisan muncul dari belakang ke depan → hero masuk → nama muncul huruf per huruf (`steps`) → tombol terbuka seperti window. Konten bisa dibaca sejak frame pertama; intro tidak pernah memblokir scroll atau klik |
+| Parallax | Lapisan header bergerak berbeda kecepatan saat di-scroll (jauh lambat, dekat cepat), via ScrollTrigger `scrub` |
+| Section | Tiap section adalah **chapter**: kartu "Chapter I · Guild Hall" (nama tematik + arti literal), lalu window `parchment` yang **terbuka scaleY bertahap** (`steps(4)`) saat masuk viewport, sekali saja |
+| Isi section | Gerak hanya yang punya tujuan: gambar quest terbuka dengan wipe pixel bertahap; garis timeline Library "tergambar" mengikuti scroll (`steps`); badge rarity muncul dengan `back.out(1.7)` (ease reward). **Bukan** fade-up di setiap elemen |
+| Navigasi | Nav lengket dengan kursor `▶` yang pindah ke section yang sedang dibaca; garis progres baca tipis di bawah nav |
+| Musik | Tombol musik di nav (lihat §10). Default mati |
+| Reduced motion | Semua di atas mati: tidak ada intro, parallax, reveal, atau kursor animasi. Halaman tampil statis dan lengkap |
+| Print / tanpa JS | Semua konten terlihat penuh; state awal animasi hanya dipasang oleh JS, dan `@media print` membatalkannya |
+
+Batas yang tidak boleh dilanggar: konten portofolio tetap terbaca ≤ 2 interaksi, tidak ada scroll-jacking, LCP header ≤ 2,5 dtk, dan animasi hanya memakai `transform`/`opacity`/`clip-path`.
+
 ---
 
 ## 9. Responsive behavior
@@ -352,6 +370,7 @@ Tampilan harus tetap "benar" di tier `low`: palet, komposisi, dan keterbacaan ti
 - Default **mute**; tombol suara selalu terlihat di HUD; pilihan disimpan.
 - SFX chiptune pendek (< 300 ms): kursor, konfirmasi, batal, langkah, reward, error.
 - BGM satu loop tenang (≤ 60 detik, ≤ 500 KB, ogg + mp3). Volume default 40%.
+- **Revisi 2026-11-25:** BGM adalah lagu chiptune **orisinal** gaya JRPG retro (lead square, bass triangle, perkusi noise) yang **disintesis di browser** lewat Web Audio, jadi tidak ada file audio dan tidak ada masalah lisensi. Tersedia di Quick Read (tombol di nav) dan Adventure (Settings). Tetap default mati, baru berbunyi setelah klik pengunjung, berhenti saat tab tersembunyi, dan pilihannya disimpan.
 - Tidak ada informasi yang hanya disampaikan lewat suara.
 
 ---

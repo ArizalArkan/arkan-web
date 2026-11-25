@@ -88,6 +88,7 @@ const writeSave = () => {
       mode: settings.savedMode,
       quality: settings.quality,
       sound: settings.sound,
+      music: settings.music,
       reducedMotion: settings.reducedMotionOverride,
     },
   });

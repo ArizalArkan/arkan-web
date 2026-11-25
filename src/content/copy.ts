@@ -3,6 +3,12 @@
 // Themed words always sit next to their literal meaning on first use.
 
 export const copy = {
+  quickRead: {
+    chapter: 'Chapter',
+    musicOn: 'Play music',
+    musicOff: 'Stop music',
+    readingProgress: 'Reading progress',
+  },
   modes: {
     adventure: 'Adventure Mode',
     quickRead: 'Quick Read',
@@ -176,6 +182,8 @@ export const copy = {
     on: 'On',
     off: 'Off',
     soundHint: 'Short chiptune blips. Off by default.',
+    music: 'Music',
+    musicHint: 'An original chiptune loop. Off by default.',
     reducedMotionHint: 'Turns off camera moves, sparkles and the typewriter.',
     qualityHint: 'Lower it if the town feels slow.',
     resetHint: 'Start the town over. Your settings stay.',

@@ -10,6 +10,11 @@ export const copy = {
     readingProgress: 'Reading progress',
     statusTitle: 'Status',
     questLabel: 'Quest',
+    boardLabel: 'Pinned quests',
+    previousQuest: 'Previous quest',
+    nextQuest: 'Next quest',
+    questCount: 'Quest {current} of {total}',
+    boardHint: 'Pick a note, or use the arrows.',
     musicPrompt: 'Play the town theme',
     guideName: 'Wren',
     // Wren's welcome in the Quick Read header. Pages type out one after another.

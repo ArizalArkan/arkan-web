@@ -343,6 +343,9 @@ Referensi vibe dari pemilik: cut-scene HD-2D modern (mis. Final Fantasy Resonanc
 | Header | Dua kolom di desktop: judul + CTA di kiri, **jendela Status** di kanan (class, lokasi, ketersediaan, tiga angka nyata yang menghitung naik, industri). Di bawahnya **pita dialog sinematik** Wren (nama + garis tipis, teks mengetik sekali, tombol musik) |
 | Chapter | Kartu judul ("CHAPTER II", garis ornamen, nama tempat) → **establishing shot** bangunan lokasi (dibangkitkan dari tile kota) yang terbuka seperti letterbox → kartu |
 | Kartu | Pita kepala gelap dengan emblem lokasi dan judul literal, tekstur kertas pixel, ornamen sudut, pita bookmark `ember-500`. Tiap quest punya label "QUEST 01" dan cap **Rank** yang "dihentakkan" |
+| Quest Board | **Papan berisi catatan yang dipin**, bukan daftar panjang: tiap quest satu catatan (nomor, judul, rank), catatan aktif terangkat dengan pin emas. Satu halaman quest terbuka; pindah lewat klik catatan, tombol ◀ ▶, panah/Home/End, atau swipe. Halaman baru "terbuka" atas-ke-bawah bertahap dan cap rank menghentak. URL mengikuti (`#/quests/:id`) tanpa scroll; semua quest tetap di DOM (tersembunyi) dan tercetak semua |
+| Hover kartu | Hanya untuk pointer halus, mati saat reduced motion: cahaya hangat mengikuti kursor **di bawah** teks, kartu naik sedikit dengan bayangan memanjang, ornamen sudut melebar, emblem melompat, pita bookmark berayun, sapuan cahaya di pita kepala, latar establishing shot mengikuti mouse. Tidak ada informasi yang hanya muncul saat hover |
+| Parallax | Lapisan header digerakkan lewat **wrapper** terpisah dari tween intro (dua tween pada satu elemen saling menimpa `y`), dengan jarak relatif tinggi adegan, bukan tinggi header |
 | Gerak | Blok konten masuk dengan wipe bertahap saat terbaca; screenshot proyek mendapat sapuan cahaya setelah terbuka. Window dibuka dengan `clip-path` (bukan `scale`) agar posisi elemen di dalamnya tetap terukur benar |
 
 ---

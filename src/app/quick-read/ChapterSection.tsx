@@ -106,8 +106,10 @@ export function ChapterSection({
           aria-hidden="true"
         />
         <span className="qr-ribbon" data-qr="ribbon" aria-hidden="true" />
+        <span className="qr-glare" data-qr="glare" aria-hidden="true" />
 
-        <header className="flex items-center gap-4 bg-night-800 px-6 py-4 text-parchment-100 sm:px-8">
+        <header className="relative flex items-center gap-4 overflow-hidden bg-night-800 px-6 py-4 text-parchment-100 sm:px-8">
+          <span className="qr-band-shine" data-qr="band-shine" aria-hidden="true" />
           <span
             className="stair flex size-12 shrink-0 items-center justify-center bg-night-700 text-parchment-300"
             style={{ clipPath: 'var(--stair)' }}

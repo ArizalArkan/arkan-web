@@ -22,6 +22,7 @@ export function useQuickReadMotion(scope: RefObject<HTMLElement | null>, reduced
       for (const chapter of q('[data-qr="chapter"]')) playChapter(chapter);
       revealBlocks(q);
       addSmallRewards(q);
+      return addCardHover(q);
     },
     { scope, dependencies: [reducedMotion], revertOnUpdate: true },
   );
@@ -96,22 +97,26 @@ const playTitleCard = (q: Query) => {
   }
 };
 
-/** Far layers drift less than near ones as the header scrolls away. */
+/**
+ * Far layers drift less than near ones while the scene is on screen. The
+ * distance is a share of the scene's own height, so layers never slide out
+ * and leave empty sky.
+ */
 const addHeaderDepth = (q: Query) => {
-  const header = q('[data-qr="hero"]')[0] as HTMLElement | undefined;
-  if (!header) return;
-  const depth: [string, number][] = [
-    ['[data-qr="moon"]', 0.45],
-    ['[data-qr-layer="far"]', 0.3],
-    ['[data-qr-layer="mid"]', 0.18],
-  ];
-  for (const [selector, rate] of depth) {
-    gsap.to(q(selector), {
-      y: () => header.offsetHeight * rate,
-      ease: 'none',
-      snap: { y: 1 }, // whole pixels, so pixel art never shimmers
-      scrollTrigger: { trigger: header, start: 'top top', end: 'bottom top', scrub: true },
-    });
+  const scene = q('[data-qr="scene"]')[0] as HTMLElement | undefined;
+  if (!scene) return;
+  for (const wrapper of q('[data-qr-depth]')) {
+    const rate = Number((wrapper as HTMLElement).dataset.qrDepth ?? 0);
+    gsap.fromTo(
+      wrapper,
+      { y: 0 },
+      {
+        y: () => scene.offsetHeight * rate * 0.4,
+        ease: 'none',
+        snap: { y: 1 }, // whole pixels, so pixel art never shimmers
+        scrollTrigger: { trigger: scene, start: 'top 60%', end: 'bottom top', scrub: true },
+      },
+    );
   }
 };
 
@@ -166,7 +171,8 @@ const revealBlocks = (q: Query) => {
   }
 
   // Screenshots wipe in, then a light sweep passes over them.
-  for (const figure of q('#quests figure')) {
+  // Quests hidden in the carousel animate when the carousel shows them.
+  for (const figure of q('#quests figure').filter((el) => !el.closest('[hidden]'))) {
     gsap.from(figure, {
       clipPath: 'inset(0% 100% 0% 0%)',
       duration: 0.5,
@@ -226,4 +232,89 @@ const addSmallRewards = (q: Query) => {
       scrollTrigger: { trigger: q('main')[0], start: 'top top', end: 'bottom bottom', scrub: 0.3 },
     },
   );
+};
+
+/**
+ * Hover on a chapter card (fine pointers only): a warm light follows the
+ * cursor under the text, the card lifts, its trims react, and the
+ * establishing shot drifts with the mouse. Pure decoration; nothing is
+ * hover-only information.
+ */
+const addCardHover = (q: Query) => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+  const cleanups: (() => void)[] = [];
+
+  for (const chapter of q('[data-qr="chapter"]')) {
+    const card = chapter.querySelector<HTMLElement>('[data-qr="window"]');
+    const back = chapter.querySelector<HTMLElement>('[data-qr="banner-back"]');
+    const banner = chapter.querySelector<HTMLElement>('[data-qr="banner"]');
+    if (!card) continue;
+    const find = (selector: string) => card.querySelectorAll(selector);
+    const glare = card.querySelector<HTMLElement>('[data-qr="glare"]');
+    const shadow = card.querySelector<HTMLElement>('.pf-shadow');
+    const moveGlareX = glare
+      ? gsap.quickTo(glare, '--gx', { duration: 0.5, ease: 'power3' })
+      : null;
+    const moveGlareY = glare
+      ? gsap.quickTo(glare, '--gy', { duration: 0.5, ease: 'power3' })
+      : null;
+    const moveBack = back ? gsap.quickTo(back, 'x', { duration: 0.8, ease: 'power3' }) : null;
+
+    const hover = gsap
+      .timeline({ paused: true, defaults: { duration: 0.3, ease: 'power2.out' } })
+      .to(card, { y: -4 }, 0)
+      .to(shadow, { y: '+=4' }, 0)
+      .to(glare, { opacity: 1 }, 0)
+      .to(find('[data-qr="corner"]'), { scale: 1.35, ease: 'steps(2)', duration: 0.16 }, 0)
+      .to(find('[data-qr="emblem"]'), { scale: 1.12, y: -2, ease: 'back.out(2)' }, 0)
+      .fromTo(
+        find('[data-qr="band-shine"]'),
+        { xPercent: -120 },
+        { xPercent: 120, duration: 0.8, ease: 'power1.inOut' },
+        0,
+      );
+
+    const swingRibbon = () =>
+      gsap.fromTo(
+        find('[data-qr="ribbon"]'),
+        { rotate: 0 },
+        {
+          keyframes: [{ rotate: 7 }, { rotate: -5 }, { rotate: 3 }, { rotate: 0 }],
+          duration: 0.9,
+          ease: 'sine.inOut',
+          transformOrigin: '50% 0%',
+        },
+      );
+
+    const onEnter = () => {
+      hover.play();
+      swingRibbon();
+    };
+    const onLeave = () => hover.reverse();
+    const onMove = (event: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      moveGlareX?.(((event.clientX - rect.left) / rect.width) * 100);
+      moveGlareY?.(((event.clientY - rect.top) / rect.height) * 100);
+    };
+    const onBannerMove = (event: MouseEvent) => {
+      if (!banner) return;
+      const rect = banner.getBoundingClientRect();
+      moveBack?.(((event.clientX - rect.left) / rect.width - 0.5) * -16);
+    };
+    const onBannerLeave = () => moveBack?.(0);
+
+    card.addEventListener('mouseenter', onEnter);
+    card.addEventListener('mouseleave', onLeave);
+    card.addEventListener('mousemove', onMove);
+    banner?.addEventListener('mousemove', onBannerMove);
+    banner?.addEventListener('mouseleave', onBannerLeave);
+    cleanups.push(() => {
+      card.removeEventListener('mouseenter', onEnter);
+      card.removeEventListener('mouseleave', onLeave);
+      card.removeEventListener('mousemove', onMove);
+      banner?.removeEventListener('mousemove', onBannerMove);
+      banner?.removeEventListener('mouseleave', onBannerLeave);
+    });
+  }
+  return () => cleanups.forEach((cleanup) => cleanup());
 };

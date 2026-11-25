@@ -107,23 +107,31 @@ export function QuickReadHero() {
       <GuideDialog />
 
       <div className="qr-scene" aria-hidden="true" data-qr="scene">
-        <img
-          src={`${SCENE}/moon.png`}
-          alt=""
-          className="qr-moon"
-          style={{ right: '14%', top: 'calc(6px * var(--scene))' }}
-          data-qr="moon"
-        />
-        <div
-          className="qr-layer qr-dof-far"
-          style={{ backgroundImage: `url(${SCENE}/far.png)` }}
-          data-qr-layer="far"
-        />
-        <div
-          className="qr-layer qr-dof-mid"
-          style={{ backgroundImage: `url(${SCENE}/mid.png)` }}
-          data-qr-layer="mid"
-        />
+        {/* Parallax moves the wrappers; the intro moves what is inside them.
+            Two tweens on one element would fight over the same y. */}
+        <div className="absolute inset-0" data-qr-depth="0.5">
+          <img
+            src={`${SCENE}/moon.png`}
+            alt=""
+            className="qr-moon"
+            style={{ right: '14%', top: 'calc(6px * var(--scene))' }}
+            data-qr="moon"
+          />
+        </div>
+        <div className="absolute inset-0" data-qr-depth="0.3">
+          <div
+            className="qr-layer qr-dof-far"
+            style={{ backgroundImage: `url(${SCENE}/far.png)` }}
+            data-qr-layer="far"
+          />
+        </div>
+        <div className="absolute inset-0" data-qr-depth="0.15">
+          <div
+            className="qr-layer qr-dof-mid"
+            style={{ backgroundImage: `url(${SCENE}/mid.png)` }}
+            data-qr-layer="mid"
+          />
+        </div>
         <div
           className="qr-layer"
           style={{ backgroundImage: `url(${SCENE}/ground.png)` }}

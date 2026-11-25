@@ -16,9 +16,9 @@ import { PixelFrame } from '@/ui/primitives/PixelFrame';
 import { ChronicleTimeline } from '@/ui/sections/ChronicleTimeline';
 import { ContactSection } from '@/ui/sections/ContactSection';
 import { EquipmentGrid } from '@/ui/sections/EquipmentGrid';
-import { QuestDetailSection } from '@/ui/sections/QuestDetailSection';
 import { StatusSheet } from '@/ui/sections/StatusSheet';
 import { ChapterSection } from './quick-read/ChapterSection';
+import { QuestCarousel } from './quick-read/QuestCarousel';
 import { QuickReadHero } from './quick-read/QuickReadHero';
 import { QuickReadNav, type NavItem } from './quick-read/QuickReadNav';
 import { useQuickReadMotion } from './quick-read/useQuickReadMotion';
@@ -80,10 +80,12 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
   useEffect(() => {
     const go = () => {
       const route = parseRoute(window.location.hash);
-      const id = elementIdFor(route);
-      const target = id ? document.getElementById(id) : null;
-      setMissingQuest(route.kind === 'quest' && !target);
-      const element = target ?? (route.kind === 'quest' ? document.getElementById('quests') : null);
+      // Quests live in the carousel, which picks the right note itself.
+      const isMissingQuest =
+        route.kind === 'quest' && !quests.some((quest) => quest.id === route.questId);
+      setMissingQuest(isMissingQuest);
+      const id = route.kind === 'quest' ? 'quests' : elementIdFor(route);
+      const element = id ? document.getElementById(id) : null;
       if (element) {
         element.scrollIntoView({ block: 'start' });
         element.focus({ preventScroll: true });
@@ -157,38 +159,7 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
               {copy.quests.notFound}
             </p>
           ) : null}
-          <div className="flex flex-col gap-12">
-            {quests.map((quest, index) => (
-              <div
-                key={quest.id}
-                id={`quest-${quest.id}`}
-                tabIndex={-1}
-                className="flex scroll-mt-24 flex-col gap-4 border-t-2 border-dashed border-ink-600/40 pt-8 outline-none first:border-0 first:pt-0"
-                data-qr-block
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="pixel-text font-display text-display-sm text-ink-600 uppercase">
-                    {copy.quickRead.questLabel} {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span
-                    className="stair -rotate-6 bg-ink-900 px-3 py-1.5 font-ui text-ui-sm font-semibold text-gold-400 shadow-pixel"
-                    style={{ clipPath: 'var(--stair)' }}
-                    data-qr="stamp"
-                  >
-                    {copy.quests.rank} {quest.rank}
-                  </span>
-                </div>
-                <QuestDetailSection
-                  quest={quest}
-                  skills={skills}
-                  headingLevel={3}
-                  onLinkOpen={(linkIndex) =>
-                    analytics.track('external_link_clicked', { quest: quest.id, index: linkIndex })
-                  }
-                />
-              </div>
-            ))}
-          </div>
+          <QuestCarousel quests={quests} skills={skills} />
         </ChapterSection>
 
         <ChapterSection {...chapterProps('skills', 2)}>

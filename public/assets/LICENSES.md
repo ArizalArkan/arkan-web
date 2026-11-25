@@ -35,4 +35,5 @@ synthesized at runtime (`src/services/audio.ts`), so there are no audio files.
 | File(s) | What | Source | License / status |
 |---|---|---|---|
 | `scene/far.png`, `scene/mid.png`, `scene/near.png`, `scene/ground.png`, `scene/moon.png`, `scene/hero-*.png`, `scene/wren-idle.png` | Layers and sprite strips for the Quick Read header diorama | Drawn in code by `scripts/lib/scene.mjs`, reusing the town's own sprites | Original work, owned by the project |
+| `scene/banner-*.png`, `scene/card-corner.png`, `scene/paper.png` | Chapter establishing shots, card corner trim, paper grain | Drawn in code by `scripts/lib/banners.mjs` from the town's own tiles and props | Original work, owned by the project |
 | (no file) "Dusk over Arkan Journey" | 16-bar background chiptune loop | Composed for this project in `src/services/song.ts`, synthesized at runtime by `src/services/music.ts` | Original work, owned by the project |

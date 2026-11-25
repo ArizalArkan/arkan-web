@@ -8,6 +8,15 @@ export const copy = {
     musicOn: 'Play music',
     musicOff: 'Stop music',
     readingProgress: 'Reading progress',
+    statusTitle: 'Status',
+    questLabel: 'Quest',
+    musicPrompt: 'Play the town theme',
+    guideName: 'Wren',
+    // Wren's welcome in the Quick Read header. Pages type out one after another.
+    guideLines: [
+      'Welcome to Arkan Journey. This is the story of Arizal Arkan, told in five chapters.',
+      'Short on time? Send a letter now. Want the whole tale? Scroll on, traveller.',
+    ],
   },
   modes: {
     adventure: 'Adventure Mode',

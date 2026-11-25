@@ -41,6 +41,19 @@ const NAV: NavItem[] = [
 const placeOf = (section: Section) =>
   world.locations.find((location) => location.id === SECTION_LOCATION[section])?.name ?? '';
 
+const chapterProps = (section: Section, index: number) => {
+  const item = NAV[index]!;
+  return {
+    id: section,
+    index,
+    locationId: SECTION_LOCATION[section],
+    place: placeOf(section),
+    title: item.label,
+    icon: item.icon,
+    chapterLabel: copy.quickRead.chapter,
+  };
+};
+
 const elementIdFor = (route: Route) =>
   route.kind === 'quest'
     ? `quest-${route.questId}`
@@ -124,7 +137,7 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
       <main
         id="main"
         tabIndex={-1}
-        className="mx-auto flex max-w-read flex-col gap-16 px-4 py-12 outline-none"
+        className="mx-auto flex max-w-read flex-col gap-16 overflow-x-clip px-4 py-12 outline-none"
       >
         {notice ? (
           <PixelFrame role="status" className="flex items-start gap-3 font-body text-body-md">
@@ -133,11 +146,11 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
           </PixelFrame>
         ) : null}
 
-        <ChapterSection id="about" index={0} place={placeOf('about')} title={copy.about.heading}>
+        <ChapterSection {...chapterProps('about', 0)}>
           <StatusSheet profile={profile} headingLevel={3} showName={false} />
         </ChapterSection>
 
-        <ChapterSection id="quests" index={1} place={placeOf('quests')} title={copy.quests.heading}>
+        <ChapterSection {...chapterProps('quests', 1)}>
           {missingQuest ? (
             <p role="status" className="flex items-center gap-2 font-ui text-ui-md text-mana-700">
               <Icon name="info" />
@@ -145,19 +158,32 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
             </p>
           ) : null}
           <div className="flex flex-col gap-12">
-            {quests.map((quest) => (
+            {quests.map((quest, index) => (
               <div
                 key={quest.id}
                 id={`quest-${quest.id}`}
                 tabIndex={-1}
-                className="scroll-mt-24 outline-none"
+                className="flex scroll-mt-24 flex-col gap-4 border-t-2 border-dashed border-ink-600/40 pt-8 outline-none first:border-0 first:pt-0"
+                data-qr-block
               >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="pixel-text font-display text-display-sm text-ink-600 uppercase">
+                    {copy.quickRead.questLabel} {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className="stair -rotate-6 bg-ink-900 px-3 py-1.5 font-ui text-ui-sm font-semibold text-gold-400 shadow-pixel"
+                    style={{ clipPath: 'var(--stair)' }}
+                    data-qr="stamp"
+                  >
+                    {copy.quests.rank} {quest.rank}
+                  </span>
+                </div>
                 <QuestDetailSection
                   quest={quest}
                   skills={skills}
                   headingLevel={3}
-                  onLinkOpen={(index) =>
-                    analytics.track('external_link_clicked', { quest: quest.id, index })
+                  onLinkOpen={(linkIndex) =>
+                    analytics.track('external_link_clicked', { quest: quest.id, index: linkIndex })
                   }
                 />
               </div>
@@ -165,7 +191,7 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
           </div>
         </ChapterSection>
 
-        <ChapterSection id="skills" index={2} place={placeOf('skills')} title={copy.skills.heading}>
+        <ChapterSection {...chapterProps('skills', 2)}>
           <EquipmentGrid
             skills={skills}
             quests={quests}
@@ -175,12 +201,7 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
           />
         </ChapterSection>
 
-        <ChapterSection
-          id="experience"
-          index={3}
-          place={placeOf('experience')}
-          title={copy.experience.heading}
-        >
+        <ChapterSection {...chapterProps('experience', 3)}>
           <ChronicleTimeline
             experience={experience}
             education={education}
@@ -191,12 +212,7 @@ export default function QuickReadApp({ canAdventure, notice }: QuickReadAppProps
           />
         </ChapterSection>
 
-        <ChapterSection
-          id="contact"
-          index={4}
-          place={placeOf('contact')}
-          title={copy.contact.heading}
-        >
+        <ChapterSection {...chapterProps('contact', 4)}>
           <ContactSection
             profile={profile}
             headingLevel={3}

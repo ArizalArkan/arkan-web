@@ -333,6 +333,18 @@ Quick Read tetap jalur tercepat untuk P1 (recruiter), tetapi **tidak boleh teras
 
 Batas yang tidak boleh dilanggar: konten portofolio tetap terbaca ≤ 2 interaksi, tidak ada scroll-jacking, LCP header ≤ 2,5 dtk, dan animasi hanya memakai `transform`/`opacity`/`clip-path`.
 
+#### Revisi 2 (2026-11-25): atmosfer HD-2D
+
+Referensi vibe dari pemilik: cut-scene HD-2D modern (mis. Final Fantasy Resonance, Octopath Traveler): sprite pixel kecil yang tajam di dalam dunia yang **diterangi cahaya lembut**, dengan kedalaman, kabut, dan partikel. Hanya suasana yang diambil; tidak ada aset, karakter, atau layout yang disalin (lihat §1.3).
+
+| Elemen | Ketentuan |
+|---|---|
+| Lapisan HD | Di atas tiap adegan pixel: sinar cahaya (conic, `mix-blend-mode: screen`), kabut yang bergeser, kunang-kunang, vignette. Lapisan jauh diberi **depth of field** (`blur` 1–2 px). Hanya lapisan HD dan lapisan latar yang boleh diblur; sprite di depan selalu tajam |
+| Header | Dua kolom di desktop: judul + CTA di kiri, **jendela Status** di kanan (class, lokasi, ketersediaan, tiga angka nyata yang menghitung naik, industri). Di bawahnya **pita dialog sinematik** Wren (nama + garis tipis, teks mengetik sekali, tombol musik) |
+| Chapter | Kartu judul ("CHAPTER II", garis ornamen, nama tempat) → **establishing shot** bangunan lokasi (dibangkitkan dari tile kota) yang terbuka seperti letterbox → kartu |
+| Kartu | Pita kepala gelap dengan emblem lokasi dan judul literal, tekstur kertas pixel, ornamen sudut, pita bookmark `ember-500`. Tiap quest punya label "QUEST 01" dan cap **Rank** yang "dihentakkan" |
+| Gerak | Blok konten masuk dengan wipe bertahap saat terbaca; screenshot proyek mendapat sapuan cahaya setelah terbuka. Window dibuka dengan `clip-path` (bukan `scale`) agar posisi elemen di dalamnya tetap terukur benar |
+
 ---
 
 ## 9. Responsive behavior

@@ -8,6 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildCharacter, characterAnimations } from './lib/characters.mjs';
 import { Canvas, encodePng, hex, packAtlas } from './lib/pixel.mjs';
+import { buildBanners } from './lib/banners.mjs';
 import { buildScene } from './lib/scene.mjs';
 import { buildWorldSprites, emblem, worldAnimations } from './lib/world.mjs';
 
@@ -93,7 +94,10 @@ for (const [name, canvas] of Object.entries(
 )) {
   fs.writeFileSync(path.join(sceneDir, `${name}.png`), encodePng(canvas));
 }
-console.log('scene layers for Quick Read');
+for (const [name, canvas] of Object.entries(buildBanners(byName(worldSprites)))) {
+  fs.writeFileSync(path.join(sceneDir, `${name}.png`), encodePng(canvas));
+}
+console.log('scene layers and chapter banners for Quick Read');
 
 // Favicon and app icons from the 16x16 emblem, integer scales only.
 const mark = emblem();

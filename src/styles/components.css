@@ -508,3 +508,235 @@
     opacity: 1;
   }
 }
+
+/*
+ * HD-2D atmosphere for Quick Read (DESIGN.md §8.5): soft light, fog, depth
+ * blur and particles over crisp pixel layers. Only the HD layer is ever
+ * blurred or eased; pixel art stays sharp and integer-scaled.
+ */
+@layer components {
+  /* Depth of field: the further the layer, the softer it gets. */
+  .qr-dof-far {
+    filter: blur(2px) brightness(0.85);
+  }
+  .qr-dof-mid {
+    filter: blur(1px) brightness(0.92);
+  }
+
+  .qr-rays {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background: repeating-conic-gradient(
+      from 190deg at var(--rays-x, 80%) -10%,
+      color-mix(in srgb, var(--color-parchment-100) 9%, transparent) 0deg 3deg,
+      transparent 3deg 11deg
+    );
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    animation: qr-rays 9s ease-in-out infinite;
+  }
+
+  .qr-fog {
+    position: absolute;
+    inset-inline: -10%;
+    height: 40%;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-dusk-300) 22%, transparent) 45%,
+      transparent
+    );
+    filter: blur(8px);
+    animation: qr-drift 18s ease-in-out infinite alternate;
+  }
+
+  .qr-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at 50% 45%,
+      transparent 55%,
+      color-mix(in srgb, var(--color-night-900) 70%, transparent) 100%
+    );
+  }
+
+  .qr-firefly {
+    position: absolute;
+    width: calc(var(--px) * 1.5);
+    height: calc(var(--px) * 1.5);
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      var(--color-parchment-100) 0 30%,
+      color-mix(in srgb, var(--color-gold-400) 60%, transparent) 45%,
+      transparent 70%
+    );
+    animation: qr-float var(--float-s, 7s) ease-in-out var(--float-delay, 0s) infinite alternate;
+  }
+
+  /* Cinematic dialog band, in the spirit of modern HD-2D cut-scenes. */
+  .qr-dialog {
+    position: relative;
+    padding: calc(var(--px) * 4) calc(var(--px) * 8);
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--color-night-800) 94%, transparent) 10%,
+      color-mix(in srgb, var(--color-night-800) 94%, transparent) 90%,
+      transparent
+    );
+  }
+  .qr-dialog-name::after {
+    content: '';
+    display: block;
+    height: 1px;
+    margin-top: calc(var(--px) * 1.5);
+    width: min(100%, 28rem);
+    background: linear-gradient(to right, var(--color-parchment-300), transparent);
+  }
+
+  /* Status window: the same translucent glass, framed as a party menu. */
+  .qr-status {
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--color-night-700) 90%, transparent),
+      color-mix(in srgb, var(--color-night-800) 96%, transparent)
+    );
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--color-parchment-300) 55%, transparent),
+      inset 0 0 0 calc(var(--px) + 1px) color-mix(in srgb, var(--color-night-900) 60%, transparent);
+  }
+
+  /* Chapter establishing shot. 360 x 112 texels at 1x on phones, 2x above. */
+  .qr-banner {
+    --scene: 1;
+    position: relative;
+    height: calc(112px * var(--scene));
+    overflow: hidden;
+    background: linear-gradient(
+      to bottom,
+      var(--color-night-800) 0 36%,
+      var(--color-night-700) 36% 100%
+    );
+  }
+  @media (min-width: 30rem) {
+    .qr-banner {
+      --scene: 2;
+    }
+  }
+  .qr-banner > .qr-layer {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+  }
+
+  /* Chapter card trims. */
+  .qr-card > .pf-fill {
+    background-image: url('/assets/scene/paper.png');
+    background-size: calc(var(--px) * 16);
+    image-rendering: pixelated;
+  }
+  .qr-corner {
+    position: absolute;
+    width: calc(var(--px) * 6);
+    height: calc(var(--px) * 6);
+    background: url('/assets/scene/card-corner.png') no-repeat center / 100% 100%;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+  .qr-ribbon {
+    position: absolute;
+    top: calc(var(--px) * -1);
+    right: calc(var(--px) * 8);
+    width: calc(var(--px) * 7);
+    height: calc(var(--px) * 16);
+    background: var(--color-ember-500);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    box-shadow: inset calc(var(--px) * -1) 0 0
+      color-mix(in srgb, var(--color-ink-900) 25%, transparent);
+  }
+  .qr-title-line {
+    height: var(--px);
+    flex: 1;
+    background: linear-gradient(to var(--line-to, right), transparent, var(--color-parchment-300));
+  }
+
+  /* A light sweep across a project screenshot after it wipes in. */
+  #quests figure::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      color-mix(in srgb, var(--color-parchment-100) 45%, transparent) 50%,
+      transparent 65%
+    );
+    transform: translateX(-110%);
+  }
+  #quests figure.is-shined::after {
+    animation: qr-shine 0.9s ease-out forwards;
+  }
+
+  :root[data-reduced-motion='true'] .qr-rays,
+  :root[data-reduced-motion='true'] .qr-fog,
+  :root[data-reduced-motion='true'] .qr-firefly {
+    animation: none;
+  }
+  :root[data-reduced-motion='true'] .qr-firefly {
+    display: none;
+  }
+
+  @media print {
+    .qr-banner,
+    .qr-dialog,
+    .qr-corner,
+    .qr-ribbon {
+      display: none;
+    }
+  }
+}
+
+@keyframes qr-rays {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes qr-drift {
+  from {
+    transform: translateX(-4%);
+  }
+  to {
+    transform: translateX(4%);
+  }
+}
+
+@keyframes qr-float {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--float-x, 18px), var(--float-y, -26px));
+    opacity: 0.4;
+  }
+}
+
+@keyframes qr-shine {
+  to {
+    transform: translateX(110%);
+  }
+}
